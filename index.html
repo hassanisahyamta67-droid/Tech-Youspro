@@ -4,16 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YOUSPRO TECH - Dev Suite</title>
-   <link rel="icon" type="image/png" href="favicon.png">
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "YOUSPRO TECH",
-  "url": "https://youspro-tech.netlify.app",
-  "logo": "https://youspro-tech.netlify.app/logo.png"
-}
-</script>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -42,7 +33,7 @@
             100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
         }
 
-        #message-panel { transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 300; }
+        #message-panel { transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 500; }
         #message-panel.open { transform: translateX(0); }
 
         .stat-card { background: linear-gradient(145deg, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.4)); border: 1px solid rgba(255,255,255,0.05); transition: all 0.2s ease; }
@@ -51,21 +42,10 @@
         .nav-link { font-size: 0.75rem; font-weight: 800; color: #94a3b8; transition: color 0.2s; cursor: pointer; letter-spacing: 0.05em; text-transform: uppercase; }
         .nav-link:hover { color: #3b82f6; }
 
-        #review-overlay, #modal-overlay { z-index: 400; background: rgba(2, 6, 23, 0.95); backdrop-filter: blur(10px); }
+        #review-overlay, #modal-overlay { z-index: 600; background: rgba(2, 6, 23, 0.95); backdrop-filter: blur(10px); }
 
-        input, select { background: #1e293b; border: 1px solid #334155; color: white; padding: 0.75rem; border-radius: 0.75rem; width: 100%; outline: none; }
-
-        .nav-logo-back {
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            height: 120%;
-            opacity: 0.15;
-            pointer-events: none;
-            z-index: -1;
-            filter: grayscale(1) brightness(2);
-        }
+        input, select, textarea { background: #1e293b; border: 1px solid #334155; color: white; padding: 0.75rem; border-radius: 0.75rem; width: 100%; outline: none; }
+        input:focus, select:focus { border-color: #3b82f6; }
     </style>
 </head>
 <body>
@@ -79,15 +59,13 @@
 
     <!-- 1. LANDING PAGE -->
     <div id="landing-wrapper" class="relative z-10">
-        <nav class="fixed w-full z-50 glass px-8 h-20 flex justify-between items-center overflow-hidden">
-            <img src="Gemini_Generated_Image_31564y31564y3156.jpg" alt="Watermark" class="nav-logo-back">
+        <nav class="fixed w-full z-50 glass px-8 h-20 flex justify-between items-center">
             <div class="flex items-center gap-10">
                 <div class="flex items-center gap-3 cursor-pointer" onclick="jumpTo('home')">
-                <div class="w-10 h-10 rounded-lg overflow-hidden border border-blue-500/50">
-    <img src="logo.png" alt="YOUSPRO TECH Logo" class="w-full h-full object-cover">
-</div>
+                    <div class="w-10 h-10 rounded-lg border border-blue-500/50 flex items-center justify-center bg-blue-900/30">
+                        <i class="fas fa-layer-group text-blue-400"></i>
                     </div>
-                    <span class="text-xl font-black tracking-tighter uppercase relative">YOUSPRO <span class="text-blue-500">TECH</span></span>
+                    <span class="text-xl font-black tracking-tighter uppercase">YOUSPRO <span class="text-blue-500">TECH</span></span>
                 </div>
                 <div class="hidden md:flex gap-6">
                     <span onclick="jumpTo('home')" class="nav-link">Home</span>
@@ -96,7 +74,7 @@
                     <span onclick="jumpTo('staff-login')" class="nav-link">Staff Access</span>
                 </div>
             </div>
-            <button onclick="jumpTo('admin-login')" class="bg-blue-600 px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-blue-500 transition shadow-lg shadow-blue-600/20 z-10">Admin Portal</button>
+            <button onclick="jumpTo('admin-login')" class="bg-blue-600 px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-blue-500 transition shadow-lg shadow-blue-600/20">Admin Portal</button>
         </nav>
 
         <!-- HOME SECTION -->
@@ -122,37 +100,16 @@
                         <p class="text-blue-500 font-black uppercase tracking-widest text-xs mb-4">Precision Engineering</p>
                         <h2 class="text-5xl font-black mb-8 leading-tight">We define the <br>standard of <span class="text-blue-500">Digital Execution.</span></h2>
                         <p class="text-slate-400 text-lg leading-relaxed mb-8">
-                            YOUSPRO TECH is not just a platform; it's a high-performance environment designed for rapid development and rigorous oversight.
+                            YOUSPRO TECH is not just a platform; it's a high-performance environment designed for rapid development and rigorous oversight. We bridge the gap between creative code and production-ready systems.
                         </p>
-                        <div class="grid grid-cols-2 gap-6">
-                            <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
-                                <p class="text-2xl font-black text-white">99.9%</p>
-                                <p class="text-[10px] text-slate-500 uppercase font-bold">Uptime Reliability</p>
-                            </div>
-                            <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
-                                <p class="text-2xl font-black text-white">24/7</p>
-                                <p class="text-[10px] text-slate-500 uppercase font-bold">Admin Oversight</p>
-                            </div>
-                        </div>
                     </div>
                     <div class="grid grid-cols-2 gap-4">
-                        <div class="space-y-4 pt-12">
-                            <div class="h-64 rounded-[2rem] bg-gradient-to-br from-blue-600 to-indigo-700 p-8 flex items-end overflow-hidden relative">
-                                <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=600" class="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-overlay">
-                                <i class="fas fa-microchip text-4xl text-white/50 relative z-10"></i>
-                            </div>
-                            <div class="h-48 rounded-[2rem] bg-slate-800 border border-white/10 overflow-hidden">
-                                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover opacity-50">
-                            </div>
+                        <div class="h-64 rounded-[2rem] bg-gradient-to-br from-blue-600 to-indigo-700 p-8 flex items-end overflow-hidden relative">
+                            <i class="fas fa-microchip text-4xl text-white/50"></i>
                         </div>
-                        <div class="space-y-4">
-                            <div class="h-48 rounded-[2rem] bg-slate-800 border border-white/10 overflow-hidden">
-                                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover opacity-50">
-                            </div>
-                            <div class="h-64 rounded-[2rem] bg-white/5 border border-white/10 p-8">
-                                <h4 class="font-black text-xl mb-2">Scalable Architecture</h4>
-                                <p class="text-xs text-slate-500 leading-relaxed">Built on a foundation of modular components and real-time synchronization.</p>
-                            </div>
+                        <div class="h-64 rounded-[2rem] bg-white/5 border border-white/10 p-8">
+                            <h4 class="font-black text-xl mb-2">Architecture</h4>
+                            <p class="text-xs text-slate-500 leading-relaxed">Built on a foundation of modular components and real-time synchronization.</p>
                         </div>
                     </div>
                 </div>
@@ -175,10 +132,13 @@
         <!-- LOGIN SECTIONS -->
         <section id="staff-login-section" class="min-h-screen flex items-center justify-center bg-slate-950/80">
             <div class="max-w-md w-full glass p-8 rounded-[2.5rem] mx-4">
+                <div class="w-16 h-16 rounded-2xl mx-auto mb-6 border border-white/10 flex items-center justify-center bg-slate-900 text-blue-500 text-3xl">
+                    <i class="fas fa-user-gear"></i>
+                </div>
                 <h2 class="text-3xl font-black mb-8 text-center">Staff Login</h2>
                 <form onsubmit="handleStaffLogin(event)" class="space-y-4">
-                    <input type="text" id="staff-id-field" placeholder="Personnel ID (e.g. YST-002)" class="text-sm py-3" required>
-                    <input type="password" id="staff-pass-field" placeholder="Security Token" class="text-sm py-3" required>
+                    <input type="text" id="staff-id-field" placeholder="Personnel ID (e.g. YST-002)" required>
+                    <input type="password" id="staff-pass-field" placeholder="Security Token" required>
                     <button type="submit" class="w-full py-4 bg-blue-600 rounded-2xl font-black text-sm hover:bg-blue-500 transition shadow-lg mt-4 uppercase">Initialize Workspace</button>
                 </form>
             </div>
@@ -186,10 +146,13 @@
 
         <section id="admin-login-section" class="min-h-screen flex items-center justify-center bg-black/90">
             <div class="max-w-md w-full glass p-8 rounded-[2.5rem] border border-indigo-500/20 mx-4">
+                <div class="w-16 h-16 rounded-2xl mx-auto mb-6 border border-indigo-500/30 flex items-center justify-center bg-slate-900 text-indigo-500 text-3xl">
+                    <i class="fas fa-shield-halved"></i>
+                </div>
                 <h2 class="text-3xl font-black mb-8 text-center">Admin Console</h2>
                 <form onsubmit="handleAdminLogin(event)" class="space-y-4">
-                    <input type="text" id="admin-user" placeholder="Admin Username" class="text-sm py-3" required>
-                    <input type="password" id="admin-pass" placeholder="Access Password" class="text-sm py-3" required>
+                    <input type="text" id="admin-user" placeholder="Admin Username" required>
+                    <input type="password" id="admin-pass" placeholder="Access Password" required>
                     <button type="submit" class="w-full py-4 bg-indigo-600 rounded-2xl font-black text-sm hover:bg-indigo-500 transition shadow-xl mt-4 uppercase">Authorize Access</button>
                 </form>
             </div>
@@ -200,13 +163,15 @@
     <div id="staff-wrapper" class="flex">
         <aside class="sidebar p-6 flex flex-col">
             <div class="mb-10 flex items-center gap-3">
-                <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center"><i class="fas fa-terminal text-white"></i></div>
+                <div class="w-10 h-10 rounded-xl border border-blue-500/30 flex items-center justify-center bg-slate-800 text-blue-400 overflow-hidden">
+                    <i class="fas fa-code"></i>
+                </div>
                 <span class="text-lg font-black tracking-tighter uppercase">DEV LAB</span>
             </div>
             <nav class="flex-1 space-y-2">
                 <button class="w-full flex items-center gap-3 px-4 py-3 bg-blue-600/10 text-blue-400 rounded-xl font-bold"><i class="fas fa-code"></i> Workspace</button>
                 <button onclick="toggleMessagePanel()" class="relative w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl font-bold text-slate-400 transition">
-                    <i class="fas fa-envelope"></i> Message Admin
+                    <i class="fas fa-envelope"></i> Messages
                     <span id="staff-msg-indicator" class="msg-dot hidden"></span>
                 </button>
             </nav>
@@ -220,11 +185,11 @@
                     <span id="staff-role-ui" class="text-[10px] bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded font-bold uppercase">ROLE</span>
                 </div>
                 <div class="flex gap-3">
-                    <button onclick="saveProgress()" class="bg-slate-800 border border-white/10 px-6 py-2 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-700 transition">
-                        <i class="fas fa-save mr-2"></i>Save Progress
+                    <button onclick="saveProgress()" class="bg-slate-800 border border-white/10 px-6 py-2 rounded-xl text-xs font-black uppercase hover:bg-slate-700 transition">
+                        <i class="fas fa-save mr-2"></i>Save
                     </button>
-                    <button onclick="submitCodeToAdmin()" class="bg-green-600 px-6 py-2 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-green-500 transition">
-                        <i class="fas fa-paper-plane mr-2"></i>Submit Work
+                    <button onclick="submitCodeToAdmin()" class="bg-green-600 px-6 py-2 rounded-xl text-xs font-black uppercase hover:bg-green-500 transition">
+                        <i class="fas fa-paper-plane mr-2"></i>Submit
                     </button>
                 </div>
             </header>
@@ -241,8 +206,10 @@
     <div id="admin-wrapper" class="flex">
         <aside class="sidebar p-6 flex flex-col">
             <div class="mb-10 flex items-center gap-3">
-                <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center"><i class="fas fa-shield-alt text-white"></i></div>
-                <span class="text-lg font-black tracking-tighter uppercase">ADMIN CORE</span>
+                <div class="w-10 h-10 rounded-xl border border-indigo-500/30 flex items-center justify-center bg-slate-800 text-indigo-400">
+                    <i class="fas fa-shield-halved"></i>
+                </div>
+                <span class="text-lg font-black tracking-tighter uppercase">ADMIN <span class="text-indigo-500">CORE</span></span>
             </div>
             <nav class="flex-1 space-y-2">
                 <button onclick="showAdminTab('analytics')" class="admin-tab-btn w-full text-left px-4 py-3 bg-indigo-600/10 text-indigo-400 rounded-xl font-bold" data-tab="analytics"><i class="fas fa-chart-pie mr-3"></i>Analytics</button>
@@ -257,19 +224,32 @@
         </aside>
 
         <main class="flex-1 flex flex-col overflow-y-auto bg-slate-950">
+            <!-- View: Analytics -->
             <div id="view-analytics" class="p-10 admin-view active-view flex-col">
                 <h2 class="text-3xl font-black mb-8 text-blue-500">System Analytics</h2>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12" id="analytics-cards"></div>
                 <h3 class="text-xl font-black mb-6 text-slate-400 uppercase tracking-widest">Recent Activity</h3>
                 <div id="login-logs" class="space-y-3 bg-slate-900/50 p-6 rounded-[2rem] border border-white/5"></div>
             </div>
+
+            <!-- View: Personnel (The Management Section) -->
             <div id="view-staff" class="p-10 admin-view hidden flex-col">
-                <div class="flex justify-between items-center mb-8">
-                    <h2 class="text-3xl font-black">Personnel Management</h2>
-                    <button onclick="openStaffModal()" class="bg-indigo-600 px-6 py-2.5 rounded-xl font-bold text-sm"><i class="fas fa-plus mr-2"></i>Register Staff</button>
+                <div class="flex justify-between items-center mb-10">
+                    <div>
+                        <h2 class="text-3xl font-black">Personnel Management</h2>
+                        <p class="text-slate-500 text-sm mt-1">Register, edit, or remove engineering staff records.</p>
+                    </div>
+                    <button onclick="openStaffModal()" class="bg-indigo-600 hover:bg-indigo-500 px-6 py-3 rounded-2xl font-bold text-sm shadow-lg shadow-indigo-600/20 transition">
+                        <i class="fas fa-plus mr-2"></i> Register New Staff
+                    </button>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="staff-grid"></div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="staff-grid">
+                    <!-- Staff Cards go here -->
+                </div>
             </div>
+
+            <!-- View: Reviews -->
             <div id="view-reviews" class="p-10 admin-view hidden flex-col">
                 <h2 class="text-3xl font-black mb-8">Review Queue</h2>
                 <div id="reviews-list" class="space-y-4"></div>
@@ -277,444 +257,403 @@
         </main>
     </div>
 
-    <!-- MESSAGE PANEL -->
-    <div id="message-panel" class="fixed top-0 right-0 h-screen w-96 bg-slate-900 border-l border-white/10 flex flex-col shadow-2xl">
-        <div class="p-6 border-b border-white/10 flex justify-between items-center bg-slate-900">
-            <h3 class="font-bold flex items-center gap-2">
-                <i class="fas fa-comments text-blue-500"></i>
-                <span id="msg-panel-title">Secure Transmission</span>
-            </h3>
-            <button onclick="toggleMessagePanel()" class="text-slate-500 hover:text-white"><i class="fas fa-times"></i></button>
-        </div>
-        <div id="admin-recipient-area" class="p-4 bg-slate-800/50 border-b border-white/5 hidden">
-            <label class="text-[9px] uppercase font-black text-slate-500 block mb-2">Target Personnel</label>
-            <select id="msg-recipient" onchange="renderMessages()" class="w-full bg-slate-900 text-xs py-2"></select>
-        </div>
-        <div id="staff-recipient-area" class="p-4 bg-slate-800/50 border-b border-white/5 hidden">
-            <div class="flex items-center gap-2">
-                <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
-                <span class="text-[10px] uppercase font-black text-slate-300">Connected: <span class="text-blue-400">ADMIN CORE</span></span>
+    <!-- STAFF MANAGEMENT MODAL -->
+    <div id="modal-overlay" class="fixed inset-0 hidden flex items-center justify-center p-6 bg-black/80 backdrop-blur-md">
+        <div class="glass max-w-lg w-full p-8 rounded-[2.5rem] border border-white/10 shadow-2xl">
+            <div class="flex justify-between items-center mb-8">
+                <h2 id="modal-title" class="text-2xl font-black">Personnel Record</h2>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white"><i class="fas fa-times"></i></button>
             </div>
-        </div>
-        <div id="message-list" class="flex-1 p-4 overflow-y-auto space-y-4 bg-slate-950/20"></div>
-        <div class="p-4 border-t border-white/10 bg-slate-900">
-            <textarea id="msg-input" placeholder="Enter secure transmission..." class="w-full bg-slate-800 border-none p-4 rounded-xl text-sm focus:outline-none resize-none" rows="3"></textarea>
-            <button onclick="sendMessage()" class="w-full mt-3 bg-blue-600 py-3 rounded-xl text-sm font-black uppercase tracking-widest">Transmit</button>
-        </div>
-    </div>
-
-    <!-- CODE INSPECTOR -->
-    <div id="review-overlay" class="fixed inset-0 hidden flex flex-col p-8">
-        <div class="flex justify-between items-center mb-6">
-            <div>
-                <h2 class="text-2xl font-black">Reviewing: <span id="review-author" class="text-blue-500">...</span></h2>
-                <p id="review-timestamp" class="text-[10px] text-slate-500 font-bold uppercase"></p>
-            </div>
-            <button onclick="closeInspector()" class="text-white text-2xl"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="flex-1 flex gap-px bg-white/10 rounded-3xl overflow-hidden border border-white/10">
-            <div class="w-1/2 bg-slate-950 flex flex-col">
-                <pre id="review-code" class="flex-1 p-6 text-sm text-blue-200 code-font overflow-auto"></pre>
-            </div>
-            <iframe id="review-preview" class="w-1/2 border-none bg-white"></iframe>
-        </div>
-        <div class="flex justify-center gap-6 mt-8">
-            <button onclick="finalizeReview('Declined')" class="border border-red-500 text-red-500 px-12 py-4 rounded-xl font-bold hover:bg-red-500 hover:text-white transition">Decline</button>
-            <button onclick="finalizeReview('Accepted')" class="bg-emerald-600 px-12 py-4 rounded-xl font-bold hover:bg-emerald-500 transition">Accept</button>
-        </div>
-    </div>
-
-    <!-- STAFF MODAL (Add/Edit) -->
-    <div id="modal-overlay" class="fixed inset-0 hidden flex items-center justify-center p-6">
-        <div class="glass max-w-lg w-full p-8 rounded-[2.5rem]">
-            <h2 id="modal-title" class="text-2xl font-black mb-6">Personnel Profile</h2>
-            <form onsubmit="saveStaff(event)" class="space-y-4">
-                <input type="hidden" id="staff-edit-id" value="">
-                <input type="text" id="modal-staff-name" placeholder="Full Name" required>
-                <input type="text" id="modal-staff-id" placeholder="Personnel ID (YST-XXX)" required>
-                <select id="modal-staff-role">
-                    <option value="Engineer">Engineer</option>
-                    <option value="Associate">Associate</option>
-                    <option value="Junior">Junior</option>
-                    <option value="Senior">Senior</option>
-                </select>
-                <input type="text" id="modal-staff-pass" placeholder="Security Password" required>
+            
+            <form onsubmit="handleStaffSave(event)" class="space-y-5">
+                <input type="hidden" id="edit-staff-original-id">
+                <div>
+                    <label class="text-[10px] font-black uppercase text-slate-500 ml-2 mb-2 block">Full Legal Name</label>
+                    <input type="text" id="m-staff-name" placeholder="e.g. Alexander Pierce" required>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-[10px] font-black uppercase text-slate-500 ml-2 mb-2 block">Personnel ID</label>
+                        <input type="text" id="m-staff-id" placeholder="YST-XXX" required>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-black uppercase text-slate-500 ml-2 mb-2 block">Access Level</label>
+                        <select id="m-staff-role">
+                            <option value="Lead Engineer">Lead Engineer</option>
+                            <option value="Senior Developer">Senior Developer</option>
+                            <option value="Software Engineer">Software Engineer</option>
+                            <option value="Associate">Associate</option>
+                            <option value="Junior">Junior</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="text-[10px] font-black uppercase text-slate-500 ml-2 mb-2 block">Security Token (Password)</label>
+                    <div class="relative">
+                        <input type="text" id="m-staff-pass" placeholder="Enter secure token" required>
+                        <button type="button" onclick="generateToken()" class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-indigo-400 hover:text-indigo-300">GENERATE</button>
+                    </div>
+                </div>
+                
                 <div class="flex gap-4 pt-4">
-                    <button type="button" onclick="closeModal()" class="flex-1 py-4 bg-slate-800 rounded-xl font-bold">Cancel</button>
-                    <button type="submit" class="flex-1 py-4 bg-indigo-600 rounded-xl font-bold">Save Changes</button>
+                    <button type="button" onclick="closeModal()" class="flex-1 py-4 bg-slate-800 rounded-2xl font-bold hover:bg-slate-700 transition">Discard</button>
+                    <button type="submit" class="flex-1 py-4 bg-indigo-600 rounded-2xl font-bold hover:bg-indigo-500 shadow-lg shadow-indigo-600/20 transition">Commit Record</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <div id="toast" class="fixed bottom-6 right-6 px-8 py-4 rounded-2xl bg-white text-slate-900 font-bold shadow-2xl opacity-0 transition-all z-[600]"></div>
+    <!-- MESSAGE PANEL -->
+    <div id="message-panel" class="fixed top-0 right-0 h-screen w-96 bg-slate-900 border-l border-white/10 flex flex-col shadow-2xl">
+        <div class="p-6 border-b border-white/10 flex justify-between items-center bg-slate-900">
+            <h3 class="font-bold flex items-center gap-2">
+                <i class="fas fa-comments text-blue-500"></i>
+                <span id="msg-panel-title">Transmissions</span>
+            </h3>
+            <button onclick="toggleMessagePanel()" class="text-slate-500 hover:text-white"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <div id="admin-recipient-area" class="p-4 bg-slate-800/50 border-b border-white/5 hidden">
+            <label class="text-[9px] uppercase font-black text-slate-500 block mb-2">Target Personnel</label>
+            <select id="msg-recipient" onchange="renderMessages()" class="w-full bg-slate-900 text-xs py-2"></select>
+        </div>
+        
+        <div id="message-list" class="flex-1 p-4 overflow-y-auto space-y-4 bg-slate-950/20"></div>
+        
+        <div class="p-4 border-t border-white/10 bg-slate-900">
+            <textarea id="msg-input" placeholder="Transmit data..." class="w-full bg-slate-800 border-none p-4 rounded-xl text-sm focus:outline-none resize-none" rows="3"></textarea>
+            <button onclick="sendMessage()" class="w-full mt-3 bg-blue-600 py-3 rounded-xl text-sm font-black uppercase tracking-widest">Send Transmission</button>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast" class="fixed bottom-6 right-6 px-8 py-4 rounded-2xl bg-white text-slate-900 font-bold shadow-2xl opacity-0 transition-all z-[1000] translate-y-10"></div>
 
     <script>
-        // --- DATA LAYER ---
-        let staffMembers = JSON.parse(localStorage.getItem('yst_staff_v2')) || [
-            { name: "Demo User", id: "YST-002", role: "Associate", pass: "123" }
+        // State Persistence
+        let staffMembers = JSON.parse(localStorage.getItem('yst_staff_v3')) || [
+            { name: "John Doe", id: "YST-001", role: "Lead Engineer", pass: "Pass123" },
+            { name: "Jane Smith", id: "YST-002", role: "Associate", pass: "Jane99" }
         ];
-        let reviews = JSON.parse(localStorage.getItem('yst_reviews_v2')) || [];
-        let messages = JSON.parse(localStorage.getItem('yst_messages_v2')) || [];
-        let drafts = JSON.parse(localStorage.getItem('yst_drafts_v2')) || {};
-        let loginLogs = JSON.parse(localStorage.getItem('yst_login_logs_v2')) || [];
-        let lastViewedTimestamp = JSON.parse(localStorage.getItem('yst_last_viewed_v2')) || {};
-
+        let reviews = JSON.parse(localStorage.getItem('yst_reviews_v3')) || [];
+        let messages = JSON.parse(localStorage.getItem('yst_messages_v3')) || [];
+        let drafts = JSON.parse(localStorage.getItem('yst_drafts_v3')) || {};
+        let loginLogs = JSON.parse(localStorage.getItem('yst_login_logs_v3')) || [];
+        
         let currentUser = null;
         let isAdmin = false;
-        let activeReviewItem = null;
-
-        // Cleanup function for logs older than 24 hours
-        function cleanupOldLogs() {
-            const twentyFourHoursAgo = Date.now() - (24 * 60 * 60 * 1000);
-            const originalLength = loginLogs.length;
-            loginLogs = loginLogs.filter(log => log.timestamp > twentyFourHoursAgo);
-            if (originalLength !== loginLogs.length) {
-                saveState();
-                if (isAdmin) renderAnalytics();
-            }
-        }
 
         function saveState() {
-            localStorage.setItem('yst_staff_v2', JSON.stringify(staffMembers));
-            localStorage.setItem('yst_reviews_v2', JSON.stringify(reviews));
-            localStorage.setItem('yst_messages_v2', JSON.stringify(messages));
-            localStorage.setItem('yst_drafts_v2', JSON.stringify(drafts));
-            localStorage.setItem('yst_last_viewed_v2', JSON.stringify(lastViewedTimestamp));
-            localStorage.setItem('yst_login_logs_v2', JSON.stringify(loginLogs));
-            updateNotificationIndicators();
+            localStorage.setItem('yst_staff_v3', JSON.stringify(staffMembers));
+            localStorage.setItem('yst_reviews_v3', JSON.stringify(reviews));
+            localStorage.setItem('yst_messages_v3', JSON.stringify(messages));
+            localStorage.setItem('yst_drafts_v3', JSON.stringify(drafts));
+            localStorage.setItem('yst_login_logs_v3', JSON.stringify(loginLogs));
         }
 
+        // Auth Logic
         function handleAdminLogin(e) {
             e.preventDefault();
-            if(document.getElementById('admin-user').value === 'admin' && document.getElementById('admin-pass').value === 'admin123') {
-                isAdmin = true; currentUser = { name: "Root Admin", id: "ADMIN" }; launchApp();
-            } else showToast("Access Denied");
+            const u = document.getElementById('admin-user').value;
+            const p = document.getElementById('admin-pass').value;
+            
+            // Hardcoded Admin Credentials
+            if(u === 'Yamta' && p === 'Yamta123') {
+                isAdmin = true;
+                currentUser = { name: "System Admin", id: "ADMIN" };
+                launchApp();
+            } else {
+                showToast("Invalid Admin Credentials");
+            }
         }
 
         function handleStaffLogin(e) {
             e.preventDefault();
-            const idField = document.getElementById('staff-id-field');
-            const passField = document.getElementById('staff-pass-field');
-            const id = idField.value;
-            const pass = passField.value;
-            const found = staffMembers.find(s => s.id === id && s.pass === pass);
+            const id = document.getElementById('staff-id-field').value;
+            const pass = document.getElementById('staff-pass-field').value;
+            const staff = staffMembers.find(s => s.id === id && s.pass === pass);
             
-            if(found) { 
-                isAdmin = false; 
-                currentUser = found; 
-                
-                // Add log with explicit date and time
-                const now = new Date();
-                loginLogs.unshift({ 
-                    staffName: found.name, 
-                    role: found.role, 
-                    time: now.toLocaleTimeString(), 
-                    date: now.toLocaleDateString(), 
-                    timestamp: now.getTime() 
-                });
-                
-                idField.value = "";
-                passField.value = "";
-                
+            if(staff) {
+                isAdmin = false;
+                currentUser = staff;
+                loginLogs.unshift({ name: staff.name, id: staff.id, time: new Date().toLocaleString() });
                 saveState();
-                launchApp(); 
-            } else showToast("Invalid Credentials");
+                launchApp();
+            } else {
+                showToast("Personnel Authentication Failed");
+            }
         }
 
         function launchApp() {
             document.getElementById('landing-wrapper').classList.add('hidden');
             document.getElementById('landing-bg').classList.add('hidden');
+            
             if(isAdmin) {
                 document.getElementById('admin-wrapper').classList.add('active-view');
                 document.getElementById('admin-recipient-area').classList.remove('hidden');
-                refreshAdminUI();
+                refreshAdminViews();
             } else {
                 document.getElementById('staff-wrapper').classList.add('active-view');
                 document.getElementById('staff-name-ui').innerText = currentUser.name;
                 document.getElementById('staff-role-ui').innerText = currentUser.role;
-                document.getElementById('staff-recipient-area').classList.remove('hidden');
-                document.getElementById('staff-editor').value = drafts[currentUser.id] || `<h1>Workspace: ${currentUser.name}</h1>`;
-                updatePreview();
+                document.getElementById('staff-editor').value = drafts[currentUser.id] || "<!-- Start coding here -->";
+                updatePreview('staff');
             }
-            renderMessages();
             renderRecipientDropdown();
-            updateNotificationIndicators();
         }
 
         function logout() { location.reload(); }
 
+        // Navigation
+        function jumpTo(id) { 
+            const el = document.getElementById(id + '-section') || document.getElementById(id);
+            if(el) el.scrollIntoView({behavior:'smooth'});
+        }
+
         function showAdminTab(tab) {
             document.querySelectorAll('.admin-view').forEach(v => v.classList.add('hidden'));
             document.getElementById('view-' + tab).classList.remove('hidden');
-            if(tab === 'reviews') renderReviews();
-            if(tab === 'staff') renderStaffList();
+            
+            document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+                btn.classList.remove('bg-indigo-600/10', 'text-indigo-400');
+                btn.classList.add('text-slate-400');
+                if(btn.dataset.tab === tab) {
+                    btn.classList.add('bg-indigo-600/10', 'text-indigo-400');
+                    btn.classList.remove('text-slate-400');
+                }
+            });
+
+            if(tab === 'staff') renderStaffGrid();
             if(tab === 'analytics') renderAnalytics();
         }
 
-        function renderStaffList() {
+        // Personnel Management CRUD
+        function renderStaffGrid() {
             const grid = document.getElementById('staff-grid');
             grid.innerHTML = staffMembers.map(s => `
-                <div class="stat-card p-6 rounded-3xl border border-white/5 group relative overflow-hidden">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <p class="font-black text-lg">${s.name}</p>
-                            <p class="text-[9px] text-indigo-400 font-black uppercase tracking-widest">${s.role}</p>
+                <div class="stat-card p-6 rounded-[2rem] border border-white/5 relative group">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 rounded-2xl bg-slate-800 border border-white/10 flex items-center justify-center text-indigo-400">
+                            <i class="fas fa-user-tie"></i>
                         </div>
-                        <div class="flex gap-2">
-                            <button onclick="editStaff('${s.id}')" class="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center hover:bg-indigo-500 hover:text-white transition">
-                                <i class="fas fa-edit text-xs"></i>
+                        <div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-all">
+                            <button onclick="openStaffModal('${s.id}')" class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 hover:bg-blue-500 hover:text-white flex items-center justify-center transition" title="Edit Staff">
+                                <i class="fas fa-pen-nib text-xs"></i>
                             </button>
-                            <button onclick="deleteStaff('${s.id}')" class="w-8 h-8 rounded-lg bg-red-500/10 text-red-400 flex items-center justify-center hover:bg-red-500 hover:text-white transition">
+                            <button onclick="removeStaff('${s.id}')" class="w-10 h-10 rounded-xl bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white flex items-center justify-center transition" title="Delete Staff">
                                 <i class="fas fa-trash-alt text-xs"></i>
                             </button>
                         </div>
                     </div>
-                    <div class="bg-black/20 p-3 rounded-xl space-y-2">
-                        <div class="flex justify-between text-[10px] font-bold">
-                            <span class="text-slate-500">ID</span>
-                            <span>${s.id}</span>
+                    <div>
+                        <h4 class="font-black text-white text-lg leading-none mb-1">${s.name}</h4>
+                        <p class="text-[9px] uppercase font-black text-indigo-500 tracking-widest">${s.role}</p>
+                    </div>
+                    <div class="mt-6 pt-6 border-t border-white/5 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[9px] uppercase font-bold text-slate-500">Personnel ID</span>
+                            <span class="text-xs font-mono text-slate-300">${s.id}</span>
                         </div>
-                        <div class="flex justify-between text-[10px] font-bold">
-                            <span class="text-slate-500">PASSWORD</span>
-                            <span class="text-indigo-400">${s.pass}</span>
+                        <div class="flex justify-between items-center">
+                            <span class="text-[9px] uppercase font-bold text-slate-500">Security Token</span>
+                            <span class="text-xs font-mono text-slate-300">${s.pass}</span>
                         </div>
                     </div>
                 </div>
-            `).join('');
+            `).join('') || `<div class="col-span-full py-20 text-center text-slate-600">No staff records found.</div>`;
         }
 
-        function editStaff(id) {
-            const staff = staffMembers.find(s => s.id === id);
-            if(!staff) return;
-            document.getElementById('modal-title').innerText = "Edit Personnel";
-            document.getElementById('staff-edit-id').value = staff.id;
-            document.getElementById('modal-staff-name').value = staff.name;
-            document.getElementById('modal-staff-id').value = staff.id;
-            document.getElementById('modal-staff-role').value = staff.role;
-            document.getElementById('modal-staff-pass').value = staff.pass;
-            openStaffModal();
-        }
-
-        function deleteStaff(id) {
-            if(confirm(`Are you sure you want to remove ${id}?`)) {
-                staffMembers = staffMembers.filter(s => s.id !== id);
-                saveState();
-                renderStaffList();
-                renderRecipientDropdown();
-                showToast("Personnel Removed");
-            }
-        }
-
-        function saveStaff(e) {
-            e.preventDefault();
-            const editId = document.getElementById('staff-edit-id').value;
-            const newStaff = {
-                name: document.getElementById('modal-staff-name').value,
-                id: document.getElementById('modal-staff-id').value,
-                role: document.getElementById('modal-staff-role').value,
-                pass: document.getElementById('modal-staff-pass').value
-            };
-
-            if(editId) {
-                const idx = staffMembers.findIndex(s => s.id === editId);
-                staffMembers[idx] = newStaff;
-                showToast("Profile Updated");
+        function openStaffModal(id = null) {
+            const modal = document.getElementById('modal-overlay');
+            const title = document.getElementById('modal-title');
+            const originalId = document.getElementById('edit-staff-original-id');
+            
+            if(id) {
+                const s = staffMembers.find(sm => sm.id === id);
+                title.innerText = "Edit Personnel Record";
+                originalId.value = s.id;
+                document.getElementById('m-staff-name').value = s.name;
+                document.getElementById('m-staff-id').value = s.id;
+                document.getElementById('m-staff-role').value = s.role;
+                document.getElementById('m-staff-pass').value = s.pass;
             } else {
-                if(staffMembers.some(s => s.id === newStaff.id)) return showToast("ID already exists");
-                staffMembers.push(newStaff);
-                showToast("Personnel Registered");
+                title.innerText = "Register New Personnel";
+                originalId.value = "";
+                document.getElementById('m-staff-name').value = "";
+                document.getElementById('m-staff-id').value = "";
+                document.getElementById('m-staff-role').value = "Software Engineer";
+                document.getElementById('m-staff-pass').value = "";
+            }
+            modal.classList.remove('hidden');
+        }
+
+        function handleStaffSave(e) {
+            e.preventDefault();
+            const originalId = document.getElementById('edit-staff-original-id').value;
+            const name = document.getElementById('m-staff-name').value;
+            const id = document.getElementById('m-staff-id').value;
+            const role = document.getElementById('m-staff-role').value;
+            const pass = document.getElementById('m-staff-pass').value;
+
+            // Simple validation: unique ID
+            if(!originalId && staffMembers.some(s => s.id === id)) {
+                return showToast("Error: This ID is already assigned.");
+            }
+
+            if(originalId) {
+                // Update
+                const idx = staffMembers.findIndex(s => s.id === originalId);
+                staffMembers[idx] = { name, id, role, pass };
+                showToast("Personnel Record Updated");
+            } else {
+                // Register
+                staffMembers.push({ name, id, role, pass });
+                showToast("New Staff Registered Successfully");
             }
 
             saveState();
             closeModal();
-            refreshAdminUI();
+            renderStaffGrid();
+            renderRecipientDropdown();
         }
 
-        function renderReviews() {
-            const list = document.getElementById('reviews-list');
-            list.innerHTML = reviews.map(r => `
-                <div class="stat-card p-6 rounded-3xl flex justify-between items-center">
-                    <div>
-                        <p class="font-bold text-lg">${r.staffName}</p>
-                        <p class="text-[10px] text-blue-500 uppercase font-black">${r.time}</p>
-                    </div>
-                    <button onclick="openInspector(${r.id})" class="bg-indigo-600 px-6 py-2 rounded-xl text-xs font-bold uppercase">Inspect</button>
-                </div>
-            `).join('') || '<p class="text-center text-slate-600">Queue Clear</p>';
+        function removeStaff(id) {
+            if(confirm(`WARNING: Deleting record ${id}. This action is permanent. Proceed?`)) {
+                staffMembers = staffMembers.filter(s => s.id !== id);
+                saveState();
+                renderStaffGrid();
+                renderRecipientDropdown();
+                showToast("Personnel Record Purged");
+            }
         }
 
-        function renderAnalytics() {
-            const cards = document.getElementById('analytics-cards');
-            const stats = [
-                { label: 'Total Personnel', val: staffMembers.length },
-                { label: 'Submissions', val: reviews.length },
-                { label: 'Active Tasks', val: Object.keys(drafts).length },
-                { label: 'Node Status', val: 'Online' }
-            ];
-            cards.innerHTML = stats.map(s => `
-                <div class="stat-card p-6 rounded-3xl">
-                    <p class="text-[9px] text-slate-500 uppercase font-black mb-1">${s.label}</p>
-                    <p class="text-2xl font-black">${s.val}</p>
-                </div>
-            `).join('');
-
-            const logs = document.getElementById('login-logs');
-            logs.innerHTML = loginLogs.slice(0, 10).map(l => `
-                <div class="flex justify-between items-center p-4 bg-slate-800/20 rounded-2xl border border-white/5">
-                    <div>
-                        <span class="font-black text-xs">${l.staffName}</span> 
-                        <span class="text-[10px] text-slate-500 ml-2">${l.role}</span>
-                    </div>
-                    <div class="text-[10px] font-black opacity-50 uppercase text-right">
-                        <div>${l.date}</div>
-                        <div>${l.time}</div>
-                    </div>
-                </div>
-            `).join('');
+        function closeModal() { document.getElementById('modal-overlay').classList.add('hidden'); }
+        
+        function generateToken() {
+            const token = Math.random().toString(36).substring(2, 10).toUpperCase();
+            document.getElementById('m-staff-pass').value = token;
         }
 
+        // Messaging
         function renderRecipientDropdown() {
             const sel = document.getElementById('msg-recipient');
-            if(sel) sel.innerHTML = staffMembers.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+            if(sel) sel.innerHTML = staffMembers.map(s => `<option value="${s.id}">${s.name} (${s.id})</option>`).join('');
+        }
+
+        function toggleMessagePanel() { 
+            document.getElementById('message-panel').classList.toggle('open'); 
+            renderMessages();
         }
 
         function sendMessage() {
             const input = document.getElementById('msg-input');
-            if(!input.value.trim()) return;
-            const rid = isAdmin ? document.getElementById('msg-recipient').value : "ADMIN";
+            const txt = input.value.trim();
+            if(!txt) return;
+
+            const recipientId = isAdmin ? document.getElementById('msg-recipient').value : "ADMIN";
+            const threadId = isAdmin ? recipientId : currentUser.id;
+
             messages.push({
-                senderId: currentUser.id, senderName: currentUser.name, recipientId: rid, 
-                threadId: isAdmin ? rid : currentUser.id, text: input.value.trim(), 
-                time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}), timestamp: Date.now()
+                senderId: currentUser.id,
+                senderName: currentUser.name,
+                recipientId: recipientId,
+                threadId: threadId,
+                text: txt,
+                time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
             });
-            input.value = '';
+
+            input.value = "";
             saveState();
             renderMessages();
-            showToast("Transmitted");
         }
 
         function renderMessages() {
             const list = document.getElementById('message-list');
-            const tid = isAdmin ? document.getElementById('msg-recipient').value : currentUser.id;
-            const thread = messages.filter(m => m.threadId === tid);
+            const threadId = isAdmin ? document.getElementById('msg-recipient').value : currentUser.id;
+            const thread = messages.filter(m => m.threadId === threadId);
+            
             list.innerHTML = thread.map(m => `
                 <div class="flex flex-col ${m.senderId === currentUser.id ? 'items-end' : 'items-start'}">
-                    <div class="max-w-[85%] p-3 rounded-2xl text-xs ${m.senderId === currentUser.id ? 'bg-blue-600 rounded-tr-none' : 'bg-slate-800 rounded-tl-none'}">
+                    <div class="max-w-[85%] p-3 rounded-2xl text-xs ${m.senderId === currentUser.id ? 'bg-blue-600' : 'bg-slate-800'}">
+                        <div class="text-[8px] font-black uppercase opacity-60 mb-1">${m.senderName}</div>
                         <p>${m.text}</p>
-                        <div class="text-[7px] mt-2 opacity-50 text-right uppercase font-bold">${m.time}</div>
+                        <div class="text-[7px] mt-2 opacity-50 font-bold">${m.time}</div>
                     </div>
                 </div>
-            `).join('');
+            `).join('') || `<div class="text-center py-20 text-slate-700 text-[10px] font-black uppercase">Channel Silent</div>`;
             list.scrollTop = list.scrollHeight;
-            
-            const panelOpen = document.getElementById('message-panel').classList.contains('open');
-            if(panelOpen) {
-                lastViewedTimestamp[tid] = Date.now();
-                saveState();
-            }
         }
 
-        function updateNotificationIndicators() {
-            if(!currentUser) return;
-            const panelOpen = document.getElementById('message-panel').classList.contains('open');
-            
-            let hasUnread = false;
-            if(isAdmin) {
-                hasUnread = messages.some(m => m.senderId !== "ADMIN" && m.timestamp > (lastViewedTimestamp[m.threadId] || 0));
-            } else {
-                hasUnread = messages.some(m => m.senderId === "ADMIN" && m.recipientId === currentUser.id && m.timestamp > (lastViewedTimestamp[currentUser.id] || 0));
-            }
-
-            const dot = document.getElementById(isAdmin ? 'admin-msg-indicator' : 'staff-msg-indicator');
-            if(dot) {
-                if(hasUnread && !panelOpen) dot.classList.remove('hidden');
-                else dot.classList.add('hidden');
-            }
+        // Dev Utilities
+        function updatePreview(type) {
+            const ed = document.getElementById('staff-editor');
+            const pre = document.getElementById('staff-preview');
+            pre.srcdoc = ed.value;
         }
 
         function saveProgress() {
             drafts[currentUser.id] = document.getElementById('staff-editor').value;
             saveState();
-            showToast("Draft Saved");
+            showToast("Workspace Snapshot Saved");
         }
 
         function submitCodeToAdmin() {
-            reviews.push({ id: Date.now(), staffId: currentUser.id, staffName: currentUser.name, code: document.getElementById('staff-editor').value, time: new Date().toLocaleString() });
+            reviews.push({
+                id: Date.now(),
+                staffName: currentUser.name,
+                staffId: currentUser.id,
+                code: document.getElementById('staff-editor').value,
+                time: new Date().toLocaleString()
+            });
             saveState();
-            showToast("Work Submitted");
+            showToast("Submitted to Admin Core");
         }
 
-        function openInspector(id) {
-            activeReviewItem = reviews.find(r => r.id === id);
-            document.getElementById('review-author').innerText = activeReviewItem.staffName;
-            document.getElementById('review-timestamp').innerText = activeReviewItem.time;
-            document.getElementById('review-code').innerText = activeReviewItem.code;
-            document.getElementById('review-preview').srcdoc = activeReviewItem.code;
-            document.getElementById('review-overlay').classList.remove('hidden');
+        function renderAnalytics() {
+            const container = document.getElementById('analytics-cards');
+            container.innerHTML = [
+                { label: 'Personnel', val: staffMembers.length },
+                { label: 'Reviews', val: reviews.length },
+                { label: 'Uptime', val: '99.9%' },
+                { label: 'Status', val: 'Secure' }
+            ].map(s => `
+                <div class="stat-card p-6 rounded-3xl">
+                    <p class="text-[9px] text-slate-500 uppercase font-black tracking-widest">${s.label}</p>
+                    <p class="text-2xl font-black">${s.val}</p>
+                </div>
+            `).join('');
+
+            const logList = document.getElementById('login-logs');
+            logList.innerHTML = loginLogs.slice(0, 10).map(l => `
+                <div class="flex justify-between items-center p-4 bg-slate-800/40 rounded-2xl border border-white/5">
+                    <span class="text-xs font-bold">${l.name} <span class="text-slate-500 font-normal">(${l.id}) initialized workspace</span></span>
+                    <span class="text-[10px] text-slate-500">${l.time}</span>
+                </div>
+            `).join('') || `<p class="text-center py-10 text-slate-700 italic">No recent activity.</p>`;
         }
 
-        function finalizeReview(status) {
-            messages.push({ senderId: "ADMIN", senderName: "System", recipientId: activeReviewItem.staffId, threadId: activeReviewItem.staffId, text: `Submission ${status.toUpperCase()}`, time: new Date().toLocaleTimeString(), timestamp: Date.now() });
-            reviews = reviews.filter(r => r.id !== activeReviewItem.id);
-            saveState();
-            closeInspector();
-            renderReviews();
-            showToast(`Submission ${status}`);
+        function refreshAdminViews() {
+            renderAnalytics();
+            renderStaffGrid();
         }
 
-        function jumpTo(id) { 
-            const el = document.getElementById(id + '-section') || document.getElementById(id);
-            if(el) el.scrollIntoView({behavior:'smooth'});
-            else if(id==='home') window.scrollTo({top:0, behavior:'smooth'});
-        }
-        function toggleMessagePanel() { 
-            const panel = document.getElementById('message-panel');
-            panel.classList.toggle('open');
-            if(panel.classList.contains('open')) {
-                const tid = isAdmin ? document.getElementById('msg-recipient').value : currentUser.id;
-                lastViewedTimestamp[tid] = Date.now();
-                renderMessages();
-            }
-            updateNotificationIndicators();
-        }
-        function updatePreview() {
-            const ed = document.getElementById('staff-editor');
-            const pre = document.getElementById('staff-preview');
-            if(ed && pre) pre.srcdoc = ed.value;
-        }
         function showToast(msg) {
             const t = document.getElementById('toast');
-            t.innerText = msg; t.classList.remove('opacity-0');
-            setTimeout(()=>t.classList.add('opacity-0'), 2500);
+            t.innerText = msg;
+            t.classList.remove('opacity-0', 'translate-y-10');
+            setTimeout(() => t.classList.add('opacity-0', 'translate-y-10'), 3000);
         }
-        function closeModal() { 
-            document.getElementById('modal-overlay').classList.add('hidden'); 
-            document.getElementById('staff-edit-id').value = "";
-            document.getElementById('modal-title').innerText = "Register Personnel";
-            document.querySelectorAll('#modal-overlay input').forEach(i => i.value = "");
-        }
-        function openStaffModal() { document.getElementById('modal-overlay').classList.remove('hidden'); }
-        function closeInspector() { document.getElementById('review-overlay').classList.add('hidden'); }
-        function refreshAdminUI() { renderStaffList(); renderAnalytics(); renderReviews(); renderRecipientDropdown(); }
 
+        // Simple BG Carousel
         let currentSlide = 0;
-        const slides = document.querySelectorAll('.hero-slide');
         setInterval(() => {
-            if (slides.length > 0) {
+            const slides = document.querySelectorAll('.hero-slide');
+            if(slides.length > 0) {
                 slides[currentSlide].classList.remove('active');
                 currentSlide = (currentSlide + 1) % slides.length;
                 slides[currentSlide].classList.add('active');
             }
         }, 5000);
-
-        // Auto-refresh tasks
-        setInterval(updateNotificationIndicators, 3000);
-        setInterval(cleanupOldLogs, 60000); // Check for old logs every minute
-        window.addEventListener('load', () => {
-            cleanupOldLogs();
-            updateNotificationIndicators();
-        });
     </script>
 </body>
 </html>
