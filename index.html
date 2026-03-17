@@ -1,637 +1,709 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>YOUSPRO TECH</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOUSPRO TECH - Dev Suite</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Fira+Code:wght@400;500&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; background-color: #020617; color: #f1f5f9; margin: 0; overflow-x: hidden; }
+        
+        .hero-bg-container { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -1; overflow: hidden; }
+        .hero-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0; transition: opacity 1.5s ease-in-out; filter: brightness(0.35) contrast(1.1); }
+        .hero-slide.active { opacity: 1; }
+
+        .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .code-font { font-family: 'Fira Code', monospace; }
+        
+        #admin-wrapper, #staff-wrapper { display: none; height: 100vh; width: 100vw; position: fixed; top: 0; left: 0; z-index: 100; background: #020617; }
+        .sidebar { width: 280px; background: #0f172a; border-right: 1px solid rgba(255,255,255,0.05); }
+        .active-view { display: flex !important; }
+        
+        .msg-dot { 
+            position: absolute; top: 12px; right: 12px; width: 10px; height: 10px; background: #ef4444; border-radius: 50%; border: 2px solid #0f172a; animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+            100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+
+        #message-panel { transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 300; }
+        #message-panel.open { transform: translateX(0); }
+
+        .stat-card { background: linear-gradient(145deg, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.4)); border: 1px solid rgba(255,255,255,0.05); transition: all 0.2s ease; }
+        .stat-card.clickable:hover { border-color: rgba(99, 102, 241, 0.5); cursor: pointer; transform: translateY(-2px); }
+        
+        .nav-link { font-size: 0.75rem; font-weight: 800; color: #94a3b8; transition: color 0.2s; cursor: pointer; letter-spacing: 0.05em; text-transform: uppercase; }
+        .nav-link:hover { color: #3b82f6; }
+
+        #review-overlay, #modal-overlay { z-index: 400; background: rgba(2, 6, 23, 0.95); backdrop-filter: blur(10px); }
+
+        input, select { background: #1e293b; border: 1px solid #334155; color: white; padding: 0.75rem; border-radius: 0.75rem; width: 100%; outline: none; }
+
+        .nav-logo-back {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 120%;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: -1;
+            filter: grayscale(1) brightness(2);
+        }
+    </style>
 </head>
 <body>
-<p><!DOCTYPE html></p>
-<p><html lang="en"></p>
-<p><head></p>
-<p><meta charset="UTF-8"></p>
-<p><meta name="viewport" content="width=device-width, initial-scale=1.0"></p>
-<p><title>YOUSPRO TECH - Dev Suite</title></p>
-<p><script src="https://cdn.tailwindcss.com"></script></p>
-<p><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"></p>
-<p><style></p>
-<p>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Fira+Code:wght@400;500&display=swap');</p>
-<p>body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; background-color: #020617; color: #f1f5f9; margin: 0; overflow-x: hidden; }</p>
-<p>.hero-bg-container { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -1; overflow: hidden; }</p>
-<p>.hero-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0; transition: opacity 1.5s ease-in-out; filter: brightness(0.35) contrast(1.1); }</p>
-<p>.hero-slide.active { opacity: 1; }</p>
-<p>.glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); }</p>
-<p>.code-font { font-family: 'Fira Code', monospace; }</p>
-<p>#admin-wrapper, #staff-wrapper { display: none; height: 100vh; width: 100vw; position: fixed; top: 0; left: 0; z-index: 100; background: #020617; }</p>
-<p>.sidebar { width: 280px; background: #0f172a; border-right: 1px solid rgba(255,255,255,0.05); }</p>
-<p>.active-view { display: flex !important; }</p>
-<p>/* NOTIFICATION DOT STYLING */</p>
-<p>.msg-dot {</p>
-<p>position: absolute; top: 12px; right: 12px; width: 10px; height: 10px; background: #ef4444; border-radius: 50%; border: 2px solid #0f172a; animation: pulse 1.5s infinite;</p>
-<p>}</p>
-<p>@keyframes pulse {</p>
-<p>0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }</p>
-<p>70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }</p>
-<p>100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }</p>
-<p>}</p>
-<p>#message-panel { transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 300; }</p>
-<p>#message-panel.open { transform: translateX(0); }</p>
-<p>.stat-card { background: linear-gradient(145deg, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.4)); border: 1px solid rgba(255,255,255,0.05); transition: all 0.2s ease; }</p>
-<p>.stat-card.clickable:hover { border-color: rgba(99, 102, 241, 0.5); cursor: pointer; transform: translateY(-2px); }</p>
-<p>.nav-link { font-size: 0.75rem; font-weight: 800; color: #94a3b8; transition: color 0.2s; cursor: pointer; letter-spacing: 0.05em; text-transform: uppercase; }</p>
-<p>.nav-link:hover { color: #3b82f6; }</p>
-<p>#review-overlay, #modal-overlay { z-index: 400; background: rgba(2, 6, 23, 0.95); backdrop-filter: blur(10px); }</p>
-<p>input, select { background: #1e293b; border: 1px solid #334155; color: white; padding: 0.75rem; border-radius: 0.75rem; width: 100%; outline: none; }</p>
-<p></style></p>
-<p></head></p>
-<p><body></p>
-<p><!-- BACKGROUND SLIDER --></p>
-<p><div id="landing-bg" class="hero-bg-container"></p>
-<p><div class="hero-slide active" style="background-image: url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2070&auto=format&fit=crop');"></div></p>
-<p><div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=2069&auto=format&fit=crop');"></div></p>
-<p><div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop');"></div></p>
-<p></div></p>
-<p><!-- 1. LANDING PAGE --></p>
-<p><div id="landing-wrapper" class="relative z-10"></p>
-<p><nav class="fixed w-full z-50 glass px-8 h-20 flex justify-between items-center"></p>
-<p><div class="flex items-center gap-10"></p>
-<p><div class="flex items-center gap-3 cursor-pointer" onclick="jumpTo('home')"></p>
-<p><div class="w-10 h-10 rounded-lg overflow-hidden border border-blue-500/50 flex items-center justify-center bg-blue-900"></p>
-<p><i class="fas fa-layer-group text-blue-400"></i></p>
-<p></div></p>
-<p><span class="text-xl font-black tracking-tighter uppercase">YOUSPRO <span class="text-blue-500">TECH</span></span></p>
-<p></div></p>
-<p><div class="hidden md:flex gap-6"></p>
-<p><span onclick="jumpTo('home')" class="nav-link">Home</span></p>
-<p><span onclick="jumpTo('about')" class="nav-link">About</span></p>
-<p><span onclick="jumpTo('mission')" class="nav-link">Mission</span></p>
-<p><span onclick="jumpTo('staff-login')" class="nav-link">Staff Access</span></p>
-<p></div></p>
-<p></div></p>
-<p><button onclick="jumpTo('admin-login')" class="bg-blue-600 px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-blue-500 transition shadow-lg shadow-blue-600/20">Admin Portal</button></p>
-<p></nav></p>
-<p><!-- HOME SECTION --></p>
-<p><section id="home-section" class="min-h-screen flex items-center justify-center pt-20 text-center px-4"></p>
-<p><div class="max-w-4xl"></p>
-<p><div class="inline-block px-4 py-1.5 mb-8 bg-blue-500/20 border border-blue-500/30 rounded-full text-blue-400 text-[10px] font-black uppercase tracking-[0.2em]">Building the Future of Tech</div></p>
-<p><h1 class="text-6xl md:text-8xl font-black mb-8 tracking-tight leading-[0.95]">Innovate. <br><span class="text-blue-500">Scale.</span> Succeed.</h1></p>
-<p><p class="text-slate-300 text-lg md:text-xl mb-12 max-w-2xl mx-auto leading-relaxed">The unified digital ecosystem for YOUSPRO engineering.</p></p>
-<p><div class="flex flex-col sm:flex-row justify-center gap-6"></p>
-<p><button onclick="jumpTo('staff-login')" class="bg-white/10 border border-white/20 px-10 py-5 rounded-2xl font-bold hover:bg-white/20 transition text-lg flex items-center justify-center gap-3"></p>
-<p><i class="fas fa-code"></i> Developer Sandbox</p>
-<p></button></p>
-<p><button onclick="jumpTo('about')" class="bg-blue-600 px-10 py-5 rounded-2xl font-bold hover:bg-blue-500 transition text-lg">Explore Suite</button></p>
-<p></div></p>
-<p></div></p>
-<p></section></p>
-<p><!-- ABOUT SECTION --></p>
-<p><section id="about-section" class="py-32 px-8 bg-slate-950/60 backdrop-blur-md border-y border-white/5"></p>
-<p><div class="max-w-6xl mx-auto"></p>
-<p><div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-center"></p>
-<p><div></p>
-<p><p class="text-blue-500 font-black uppercase tracking-widest text-xs mb-4">Precision Engineering</p></p>
-<p><h2 class="text-5xl font-black mb-8 leading-tight">We define the <br>standard of <span class="text-blue-500">Digital Execution.</span></h2></p>
-<p><p class="text-slate-400 text-lg leading-relaxed mb-8"></p>
-<p>YOUSPRO TECH is not just a platform; it's a high-performance environment designed for rapid development and rigorous oversight. We bridge the gap between creative code and production-ready systems.</p>
-<p></p></p>
-<p><div class="grid grid-cols-2 gap-6"></p>
-<p><div class="p-4 rounded-2xl bg-white/5 border border-white/10"></p>
-<p><p class="text-2xl font-black text-white">99.9%</p></p>
-<p><p class="text-[10px] text-slate-500 uppercase font-bold">Uptime Reliability</p></p>
-<p></div></p>
-<p><div class="p-4 rounded-2xl bg-white/5 border border-white/10"></p>
-<p><p class="text-2xl font-black text-white">24/7</p></p>
-<p><p class="text-[10px] text-slate-500 uppercase font-bold">Admin Oversight</p></p>
-<p></div></p>
-<p></div></p>
-<p></div></p>
-<p><div class="grid grid-cols-2 gap-4"></p>
-<p><div class="space-y-4 pt-12"></p>
-<p><div class="h-64 rounded-[2rem] bg-gradient-to-br from-blue-600 to-indigo-700 p-8 flex items-end overflow-hidden"></p>
-<p><i class="fas fa-microchip text-4xl text-white/50 absolute"></i></p>
-<p><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover opacity-40 mix-blend-overlay" alt="Hardware"></p>
-<p></div></p>
-<p><div class="h-48 rounded-[2rem] bg-slate-800 border border-white/10 overflow-hidden"></p>
-<p><img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover opacity-50" alt="Code"></p>
-<p></div></p>
-<p></div></p>
-<p><div class="space-y-4"></p>
-<p><div class="h-48 rounded-[2rem] bg-slate-800 border border-white/10 overflow-hidden"></p>
-<p><img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover opacity-50" alt="Network"></p>
-<p></div></p>
-<p><div class="h-64 rounded-[2rem] bg-white/5 border border-white/10 p-8"></p>
-<p><h4 class="font-black text-xl mb-2">Scalable Architecture</h4></p>
-<p><p class="text-xs text-slate-500 leading-relaxed">Built on a foundation of modular components and real-time synchronization.</p></p>
-<p></div></p>
-<p></div></p>
-<p></div></p>
-<p></div></p>
-<p></div></p>
-<p></section></p>
-<p><!-- MISSION SECTION --></p>
-<p><section id="mission-section" class="py-32 px-8 bg-black/40"></p>
-<p><div class="max-w-4xl mx-auto text-center"></p>
-<p><h2 class="text-4xl font-black mb-10">Our <span class="text-blue-500">Mission</span></h2></p>
-<p><div class="relative p-12 rounded-[3rem] overflow-hidden"></p>
-<p><div class="absolute inset-0 bg-blue-600/5 backdrop-blur-3xl border border-blue-500/10"></div></p>
-<p><p class="relative text-xl md:text-2xl font-light text-slate-200 leading-relaxed italic"></p>
-<p>"To empower the next generation of engineers by providing the tools, transparency, and structure needed to turn complex ideas into digital reality."</p>
-<p></p></p>
-<p></div></p>
-<p></div></p>
-<p></section></p>
-<p><!-- LOGIN SECTIONS --></p>
-<p><section id="staff-login-section" class="min-h-screen flex items-center justify-center bg-slate-950/80"></p>
-<p><div class="max-w-md w-full glass p-8 rounded-[2.5rem] mx-4"></p>
-<p><h2 class="text-3xl font-black mb-8 text-center">Staff Login</h2></p>
-<p><form onsubmit="handleStaffLogin(event)" class="space-y-4"></p>
-<p><input type="text" id="staff-id-field" placeholder="Personnel ID (e.g. YST-002)" class="text-sm py-3" required></p>
-<p><input type="password" id="staff-pass-field" placeholder="Security Token" class="text-sm py-3" required></p>
-<p><button type="submit" class="w-full py-4 bg-blue-600 rounded-2xl font-black text-sm hover:bg-blue-500 transition shadow-lg mt-4 uppercase">Initialize Workspace</button></p>
-<p></form></p>
-<p></div></p>
-<p></section></p>
-<p><section id="admin-login-section" class="min-h-screen flex items-center justify-center bg-black/90"></p>
-<p><div class="max-w-md w-full glass p-8 rounded-[2.5rem] border border-indigo-500/20 mx-4"></p>
-<p><h2 class="text-3xl font-black mb-8 text-center">Admin Console</h2></p>
-<p><form onsubmit="handleAdminLogin(event)" class="space-y-4"></p>
-<p><input type="text" id="admin-user" placeholder="Admin Username" class="text-sm py-3" required></p>
-<p><input type="password" id="admin-pass" placeholder="Access Password" class="text-sm py-3" required></p>
-<p><button type="submit" class="w-full py-4 bg-indigo-600 rounded-2xl font-black text-sm hover:bg-indigo-500 transition shadow-xl mt-4 uppercase">Authorize Access</button></p>
-<p></form></p>
-<p></div></p>
-<p></section></p>
-<p></div></p>
-<p><!-- 2. STAFF DASHBOARD --></p>
-<p><div id="staff-wrapper" class="flex"></p>
-<p><aside class="sidebar p-6 flex flex-col"></p>
-<p><div class="mb-10 flex items-center gap-3"></p>
-<p><div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center"><i class="fas fa-terminal text-white"></i></div></p>
-<p><span class="text-lg font-black tracking-tighter uppercase">DEV LAB</span></p>
-<p></div></p>
-<p><nav class="flex-1 space-y-2"></p>
-<p><button class="w-full flex items-center gap-3 px-4 py-3 bg-blue-600/10 text-blue-400 rounded-xl font-bold"><i class="fas fa-code"></i> Workspace</button></p>
-<p><button onclick="toggleMessagePanel()" class="relative w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl font-bold text-slate-400 transition"></p>
-<p><i class="fas fa-envelope"></i> Message Admin</p>
-<p><span id="staff-msg-indicator" class="msg-dot hidden"></span></p>
-<p></button></p>
-<p></nav></p>
-<p><button onclick="logout()" class="text-red-400 p-4 font-bold flex items-center gap-3 hover:bg-red-500/10 rounded-xl transition"><i class="fas fa-sign-out-alt"></i>Logout</button></p>
-<p></aside></p>
-<p><main class="flex-1 flex flex-col overflow-hidden"></p>
-<p><header class="h-16 border-b border-white/5 flex items-center justify-between px-8 bg-slate-900/20"></p>
-<p><div class="flex items-center gap-4"></p>
-<p><span id="staff-name-ui" class="font-bold text-sm text-slate-300">Staff User</span></p>
-<p><span id="staff-role-ui" class="text-[10px] bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded font-bold uppercase">ROLE</span></p>
-<p></div></p>
-<p><div class="flex gap-3"></p>
-<p><button onclick="saveProgress()" class="bg-slate-800 border border-white/10 px-6 py-2 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-700 transition"></p>
-<p><i class="fas fa-save mr-2"></i>Save Progress</p>
-<p></button></p>
-<p><button onclick="submitCodeToAdmin()" class="bg-green-600 px-6 py-2 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-green-500 transition"></p>
-<p><i class="fas fa-paper-plane mr-2"></i>Submit Work</p>
-<p></button></p>
-<p></div></p>
-<p></header></p>
-<p><div class="flex-1 flex gap-px bg-white/5"></p>
-<p><div class="w-1/2 flex flex-col bg-slate-950"></p>
-<p><textarea id="staff-editor" class="flex-1 w-full bg-slate-950 text-blue-100 p-6 code-font focus:outline-none resize-none text-sm" spellcheck="false" oninput="updatePreview('staff')"></textarea></p>
-<p></div></p>
-<p><iframe id="staff-preview" class="w-1/2 border-none bg-white"></iframe></p>
-<p></div></p>
-<p></main></p>
-<p></div></p>
-<p><!-- 3. ADMIN DASHBOARD --></p>
-<p><div id="admin-wrapper" class="flex"></p>
-<p><aside class="sidebar p-6 flex flex-col"></p>
-<p><div class="mb-10 flex items-center gap-3"></p>
-<p><div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center"><i class="fas fa-shield-alt text-white"></i></div></p>
-<p><span class="text-lg font-black tracking-tighter uppercase">ADMIN CORE</span></p>
-<p></div></p>
-<p><nav class="flex-1 space-y-2"></p>
-<p><button onclick="showAdminTab('analytics')" class="admin-tab-btn w-full text-left px-4 py-3 bg-indigo-600/10 text-indigo-400 rounded-xl font-bold" data-tab="analytics"><i class="fas fa-chart-pie mr-3"></i>Analytics</button></p>
-<p><button onclick="showAdminTab('staff')" class="admin-tab-btn w-full text-left px-4 py-3 text-slate-400 hover:bg-white/5 rounded-xl font-bold" data-tab="staff"><i class="fas fa-users-cog mr-3"></i>Personnel</button></p>
-<p><button onclick="showAdminTab('reviews')" class="admin-tab-btn w-full text-left px-4 py-3 text-slate-400 hover:bg-white/5 rounded-xl font-bold" data-tab="reviews"><i class="fas fa-code-branch mr-3"></i>Reviews</button></p>
-<p><button onclick="toggleMessagePanel()" class="relative w-full text-left px-4 py-3 text-slate-400 hover:bg-white/5 rounded-xl font-bold transition"></p>
-<p><i class="fas fa-comment-alt mr-3"></i>Messages</p>
-<p><span id="admin-msg-indicator" class="msg-dot hidden"></span></p>
-<p></button></p>
-<p></nav></p>
-<p><button onclick="logout()" class="text-red-400 p-4 font-bold flex items-center gap-3 hover:bg-red-500/10 rounded-xl transition"><i class="fas fa-power-off"></i>Logout</button></p>
-<p></aside></p>
-<p><main class="flex-1 flex flex-col overflow-y-auto bg-slate-950"></p>
-<p><div id="view-analytics" class="p-10 admin-view active-view flex-col"></p>
-<p><h2 class="text-3xl font-black mb-8 text-blue-500">System Analytics</h2></p>
-<p><div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12" id="analytics-cards"></div></p>
-<p><h3 class="text-xl font-black mb-6 text-slate-400 uppercase tracking-widest">Staff Login Details (Last 24h)</h3></p>
-<p><div id="login-logs" class="space-y-3 bg-slate-900/50 p-6 rounded-[2rem] border border-white/5"></p>
-<p><div class="text-center py-10 text-slate-600 text-sm italic">No login events recorded for current session.</div></p>
-<p></div></p>
-<p></div></p>
-<p><div id="view-staff" class="p-10 admin-view hidden flex-col"></p>
-<p><div class="flex justify-between items-center mb-8"></p>
-<p><h2 class="text-3xl font-black">Personnel Management</h2></p>
-<p><button onclick="openStaffModal()" class="bg-indigo-600 px-6 py-2.5 rounded-xl font-bold text-sm">Register Staff</button></p>
-<p></div></p>
-<p><div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="staff-grid"></div></p>
-<p></div></p>
-<p><div id="view-reviews" class="p-10 admin-view hidden flex-col"></p>
-<p><h2 class="text-3xl font-black mb-8">Review Queue</h2></p>
-<p><div id="reviews-list" class="space-y-4"></div></p>
-<p></div></p>
-<p></main></p>
-<p></div></p>
-<p><!-- MESSAGE PANEL --></p>
-<p><div id="message-panel" class="fixed top-0 right-0 h-screen w-96 bg-slate-900 border-l border-white/10 flex flex-col shadow-2xl"></p>
-<p><div class="p-6 border-b border-white/10 flex justify-between items-center bg-slate-900"></p>
-<p><h3 class="font-bold flex items-center gap-2"></p>
-<p><i class="fas fa-comments text-blue-500"></i></p>
-<p><span id="msg-panel-title">Secure Transmission</span></p>
-<p></h3></p>
-<p><button onclick="toggleMessagePanel()" class="text-slate-500 hover:text-white"><i class="fas fa-times"></i></button></p>
-<p></div></p>
-<p><!-- Only Admin sees this to select a staff member --></p>
-<p><div id="admin-recipient-area" class="p-4 bg-slate-800/50 border-b border-white/5 hidden"></p>
-<p><label class="text-[9px] uppercase font-black text-slate-500 block mb-2">Target Personnel</label></p>
-<p><select id="msg-recipient" onchange="renderMessages()" class="w-full bg-slate-900 text-xs py-2"></select></p>
-<p></div></p>
-<p><!-- Only Staff sees this fixed label --></p>
-<p><div id="staff-recipient-area" class="p-4 bg-slate-800/50 border-b border-white/5 hidden"></p>
-<p><div class="flex items-center gap-2"></p>
-<p><div class="w-2 h-2 rounded-full bg-emerald-500"></div></p>
-<p><span class="text-[10px] uppercase font-black text-slate-300">Connected to: <span class="text-blue-400">ADMIN CORE</span></span></p>
-<p></div></p>
-<p></div></p>
-<p><div id="message-list" class="flex-1 p-4 overflow-y-auto space-y-4 bg-slate-950/20"></div></p>
-<p><div class="p-4 border-t border-white/10 bg-slate-900"></p>
-<p><textarea id="msg-input" placeholder="Enter secure transmission..." class="w-full bg-slate-800 border-none p-4 rounded-xl text-sm focus:outline-none resize-none" rows="3"></textarea></p>
-<p><button onclick="sendMessage()" class="w-full mt-3 bg-blue-600 py-3 rounded-xl text-sm font-black uppercase tracking-widest">Transmit</button></p>
-<p></div></p>
-<p></div></p>
-<p><!-- CODE INSPECTOR --></p>
-<p><div id="review-overlay" class="fixed inset-0 hidden flex flex-col p-8"></p>
-<p><div class="flex justify-between items-center mb-6"></p>
-<p><div></p>
-<p><h2 class="text-2xl font-black">Reviewing: <span id="review-author" class="text-blue-500">...</span></h2></p>
-<p><p id="review-timestamp" class="text-[10px] text-slate-500 font-bold uppercase"></p></p>
-<p></div></p>
-<p><button onclick="closeInspector()" class="text-white text-2xl"><i class="fas fa-times"></i></button></p>
-<p></div></p>
-<p><div class="flex-1 flex gap-px bg-white/10 rounded-3xl overflow-hidden border border-white/10"></p>
-<p><div class="w-1/2 bg-slate-950 flex flex-col"></p>
-<p><div class="p-3 bg-slate-900 text-[10px] font-black uppercase text-slate-500 border-b border-white/5">Individual Source Code</div></p>
-<p><pre id="review-code" class="flex-1 p-6 text-sm text-blue-200 code-font overflow-auto"></pre></p>
-<p></div></p>
-<p><iframe id="review-preview" class="w-1/2 border-none bg-white"></iframe></p>
-<p></div></p>
-<p><div class="flex justify-center gap-6 mt-8"></p>
-<p><button onclick="finalizeReview('Declined')" class="border border-red-500 text-red-500 px-12 py-4 rounded-xl font-bold hover:bg-red-500 hover:text-white transition">Decline</button></p>
-<p><button onclick="finalizeReview('Accepted')" class="bg-emerald-600 px-12 py-4 rounded-xl font-bold hover:bg-emerald-500 transition">Accept</button></p>
-<p></div></p>
-<p></div></p>
-<p><!-- MODAL --></p>
-<p><div id="modal-overlay" class="fixed inset-0 hidden flex items-center justify-center p-6"></p>
-<p><div class="glass max-w-lg w-full p-8 rounded-[2.5rem]"></p>
-<p><h2 id="modal-title" class="text-2xl font-black mb-6">Register Personnel</h2></p>
-<p><form onsubmit="saveStaff(event)" class="space-y-4"></p>
-<p><input type="hidden" id="staff-edit-index" value="-1"></p>
-<p><input type="text" id="modal-staff-name" placeholder="Full Name" required></p>
-<p><input type="text" id="modal-staff-id" placeholder="Employee ID (YST-001)" required></p>
-<p><select id="modal-staff-role"></p>
-<p><option value="Engineer">Engineer</option></p>
-<p><option value="Associate">Associate</option></p>
-<p><option value="Junior">Junior</option></p>
-<p></select></p>
-<p><input type="text" id="modal-staff-pass" placeholder="Password" required></p>
-<p><div class="flex gap-4 pt-4"></p>
-<p><button type="button" onclick="closeModal()" class="flex-1 py-4 bg-slate-800 rounded-xl font-bold">Cancel</button></p>
-<p><button type="submit" class="flex-1 py-4 bg-indigo-600 rounded-xl font-bold">Save</button></p>
-<p></div></p>
-<p></form></p>
-<p></div></p>
-<p></div></p>
-<p><div id="toast" class="fixed bottom-6 right-6 px-8 py-4 rounded-2xl bg-white text-slate-900 font-bold shadow-2xl opacity-0 transition-all z-[600]"></div></p>
-<p><script></p>
-<p>// --- DATA LAYER ---</p>
-<p>let staffMembers = JSON.parse(localStorage.getItem('yst_staff_v2')) || [</p>
-<p>{ name: "Demo User", id: "YST-002", role: "Associate", pass: "123" }</p>
-<p>];</p>
-<p>let reviews = JSON.parse(localStorage.getItem('yst_reviews_v2')) || [];</p>
-<p>let messages = JSON.parse(localStorage.getItem('yst_messages_v2')) || [];</p>
-<p>let drafts = JSON.parse(localStorage.getItem('yst_drafts_v2')) || {};</p>
-<p>let loginLogs = JSON.parse(localStorage.getItem('yst_login_logs_v2')) || [];</p>
-<p>let currentUser = null;</p>
-<p>let isAdmin = false;</p>
-<p>let activeReviewItem = null;</p>
-<p>let lastViewedTimestamp = JSON.parse(localStorage.getItem('yst_last_viewed_v2')) || {};</p>
-<p>function saveState() {</p>
-<p>localStorage.setItem('yst_staff_v2', JSON.stringify(staffMembers));</p>
-<p>localStorage.setItem('yst_reviews_v2', JSON.stringify(reviews));</p>
-<p>localStorage.setItem('yst_messages_v2', JSON.stringify(messages));</p>
-<p>localStorage.setItem('yst_drafts_v2', JSON.stringify(drafts));</p>
-<p>localStorage.setItem('yst_last_viewed_v2', JSON.stringify(lastViewedTimestamp));</p>
-<p>localStorage.setItem('yst_login_logs_v2', JSON.stringify(loginLogs));</p>
-<p>updateNotificationIndicators();</p>
-<p>}</p>
-<p>// --- PURGE LOGIC (24h Reset) ---</p>
-<p>function purgeOldLogs() {</p>
-<p>const twentyFourHoursAgo = Date.now() - (24 * 60 * 60 * 1000);</p>
-<p>const initialLength = loginLogs.length;</p>
-<p>loginLogs = loginLogs.filter(log => log.timestamp > twentyFourHoursAgo);</p>
-<p>if (loginLogs.length !== initialLength) {</p>
-<p>saveState();</p>
-<p>}</p>
-<p>}</p>
-<p>// --- AUTH ---</p>
-<p>function handleAdminLogin(e) {</p>
-<p>e.preventDefault();</p>
-<p>purgeOldLogs();</p>
-<p>if(document.getElementById('admin-user').value === 'admin' && document.getElementById('admin-pass').value === 'admin123') {</p>
-<p>isAdmin = true; currentUser = { name: "Root Admin", id: "ADMIN" }; launchApp();</p>
-<p>} else showToast("Access Denied");</p>
-<p>}</p>
-<p>function handleStaffLogin(e) {</p>
-<p>e.preventDefault();</p>
-<p>purgeOldLogs();</p>
-<p>const id = document.getElementById('staff-id-field').value;</p>
-<p>const pass = document.getElementById('staff-pass-field').value;</p>
-<p>const found = staffMembers.find(s => s.id === id && s.pass === pass);</p>
-<p>if(found) {</p>
-<p>isAdmin = false;</p>
-<p>currentUser = found;</p>
-<p>// NOTIFICATION LOGIC: Log to System Analytics ONLY</p>
-<p>const now = new Date();</p>
-<p>const logEntry = {</p>
-<p>staffName: found.name,</p>
-<p>role: found.role,</p>
-<p>date: now.toLocaleDateString(),</p>
-<p>time: now.toLocaleTimeString(),</p>
-<p>timestamp: Date.now()</p>
-<p>};</p>
-<p>loginLogs.unshift(logEntry);</p>
-<p>// Removed the messages.push block here to stop Secure Transmission alerts</p>
-<p>saveState();</p>
-<p>launchApp();</p>
-<p>}</p>
-<p>else showToast("Invalid Personnel ID");</p>
-<p>}</p>
-<p>function launchApp() {</p>
-<p>document.getElementById('landing-wrapper').classList.add('hidden');</p>
-<p>document.getElementById('landing-bg').classList.add('hidden');</p>
-<p>if(isAdmin) {</p>
-<p>document.getElementById('admin-wrapper').classList.add('active-view');</p>
-<p>document.getElementById('admin-recipient-area').classList.remove('hidden');</p>
-<p>document.getElementById('staff-recipient-area').classList.add('hidden');</p>
-<p>refreshAdminUI();</p>
-<p>} else {</p>
-<p>document.getElementById('staff-wrapper').classList.add('active-view');</p>
-<p>document.getElementById('staff-name-ui').innerText = currentUser.name;</p>
-<p>document.getElementById('staff-role-ui').innerText = currentUser.role;</p>
-<p>document.getElementById('staff-recipient-area').classList.remove('hidden');</p>
-<p>document.getElementById('admin-recipient-area').classList.add('hidden');</p>
-<p>const savedDraft = drafts[currentUser.id];</p>
-<p>document.getElementById('staff-editor').value = savedDraft || `<h1>Individual Workspace: ${currentUser.name}</h1>\n<p>Start your code submission here...</p>`;</p>
-<p>updatePreview('staff');</p>
-<p>}</p>
-<p>renderMessages();</p>
-<p>renderRecipientDropdown();</p>
-<p>updateNotificationIndicators();</p>
-<p>}</p>
-<p>function logout() { location.reload(); }</p>
-<p>// --- DASHBOARD UI ---</p>
-<p>function showAdminTab(tab) {</p>
-<p>document.querySelectorAll('.admin-view').forEach(v => v.classList.add('hidden'));</p>
-<p>document.getElementById('view-' + tab).classList.remove('hidden');</p>
-<p>if(tab === 'reviews') renderReviews();</p>
-<p>if(tab === 'staff') renderStaffList();</p>
-<p>if(tab === 'analytics') renderAnalytics();</p>
-<p>}</p>
-<p>function renderStaffList() {</p>
-<p>const grid = document.getElementById('staff-grid');</p>
-<p>grid.innerHTML = staffMembers.map((s, idx) => `</p>
-<p><div class="stat-card p-6 rounded-3xl border border-white/5"></p>
-<p><p class="font-black text-lg">${s.name}</p></p>
-<p><p class="text-[9px] text-indigo-400 font-black uppercase mb-4 tracking-widest">${s.role}</p></p>
-<p><div class="flex justify-between text-[10px] text-slate-500 uppercase font-bold"></p>
-<p><span>ID: ${s.id}</span></p>
-<p><span>Key: ${s.pass}</span></p>
-<p></div></p>
-<p></div></p>
-<p>`).join('');</p>
-<p>}</p>
-<p>function renderReviews() {</p>
-<p>const list = document.getElementById('reviews-list');</p>
-<p>list.innerHTML = reviews.map(r => `</p>
-<p><div class="stat-card p-6 rounded-3xl flex justify-between items-center border border-white/5"></p>
-<p><div></p>
-<p><p class="font-bold text-lg">${r.staffName} <span class="text-xs text-slate-500 font-normal">(${r.staffId})</span></p></p>
-<p><p class="text-[10px] text-blue-500 font-bold uppercase tracking-widest">Submission Time: ${r.time}</p></p>
-<p></div></p>
-<p><button onclick="openInspector(${r.id})" class="bg-indigo-600 px-6 py-2 rounded-xl text-xs font-bold uppercase tracking-tighter">Inspect Individual Code</button></p>
-<p></div></p>
-<p>`).join('') || '<p class="text-slate-600 text-center py-10">Submission queue is empty</p>';</p>
-<p>}</p>
-<p>function renderAnalytics() {</p>
-<p>const container = document.getElementById('analytics-cards');</p>
-<p>const stats = [</p>
-<p>{ label: 'Registered Staff', val: staffMembers.length },</p>
-<p>{ label: 'Work Submissions', val: reviews.length },</p>
-<p>{ label: 'Recent Accesses', val: loginLogs.length },</p>
-<p>{ label: 'Nodes', val: '4/4' }</p>
-<p>];</p>
-<p>container.innerHTML = stats.map(s => `</p>
-<p><div class="stat-card p-6 rounded-3xl"></p>
-<p><p class="text-[9px] text-slate-500 uppercase font-black mb-1 tracking-widest">${s.label}</p></p>
-<p><p class="text-2xl font-black">${s.val}</p></p>
-<p></div></p>
-<p>`).join('');</p>
-<p>const logList = document.getElementById('login-logs');</p>
-<p>if (loginLogs.length === 0) {</p>
-<p>logList.innerHTML = `<div class="text-center py-10 text-slate-600 text-sm italic">No login events recorded in the last 24 hours.</div>`;</p>
-<p>} else {</p>
-<p>logList.innerHTML = loginLogs.map(log => `</p>
-<p><div class="flex items-center justify-between p-4 bg-slate-800/40 rounded-2xl border border-white/5"></p>
-<p><div class="flex items-center gap-4"></p>
-<p><div class="w-8 h-8 rounded-full bg-blue-600/20 flex items-center justify-center text-blue-400"></p>
-<p><i class="fas fa-user-check text-xs"></i></p>
-<p></div></p>
-<p><div></p>
-<p><p class="text-xs font-black">${log.staffName}</p></p>
-<p><p class="text-[9px] text-slate-500 uppercase font-bold">${log.role}</p></p>
-<p></div></p>
-<p></div></p>
-<p><div class="text-right"></p>
-<p><p class="text-[10px] font-black text-slate-300 uppercase">${log.time}</p></p>
-<p><p class="text-[8px] font-bold text-slate-600 uppercase tracking-tighter">${log.date}</p></p>
-<p></div></p>
-<p></div></p>
-<p>`).join('');</p>
-<p>}</p>
-<p>}</p>
-<p>function renderRecipientDropdown() {</p>
-<p>const sel = document.getElementById('msg-recipient');</p>
-<p>if(sel) {</p>
-<p>sel.innerHTML = staffMembers.map(s => `<option value="${s.id}">${s.name} (${s.id})</option>`).join('');</p>
-<p>}</p>
-<p>}</p>
-<p>function sendMessage() {</p>
-<p>const input = document.getElementById('msg-input');</p>
-<p>const val = input.value.trim();</p>
-<p>if(!val) return;</p>
-<p>const recipientId = isAdmin ? document.getElementById('msg-recipient').value : "ADMIN";</p>
-<p>messages.push({</p>
-<p>senderId: currentUser.id,</p>
-<p>senderName: currentUser.name,</p>
-<p>recipientId: recipientId,</p>
-<p>threadId: isAdmin ? recipientId : currentUser.id,</p>
-<p>text: val,</p>
-<p>time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),</p>
-<p>timestamp: Date.now()</p>
-<p>});</p>
-<p>input.value = '';</p>
-<p>saveState();</p>
-<p>renderMessages();</p>
-<p>showToast("Transmission Successful");</p>
-<p>updateNotificationIndicators();</p>
-<p>}</p>
-<p>function updateNotificationIndicators() {</p>
-<p>if (!currentUser) return;</p>
-<p>const isPanelOpen = document.getElementById('message-panel').classList.contains('open');</p>
-<p>const indicatorId = isAdmin ? 'admin-msg-indicator' : 'staff-msg-indicator';</p>
-<p>const indicator = document.getElementById(indicatorId);</p>
-<p>if (indicator) {</p>
-<p>if (isPanelOpen) {</p>
-<p>const currentThreadId = isAdmin ? document.getElementById('msg-recipient').value : currentUser.id;</p>
-<p>lastViewedTimestamp[currentThreadId + "_" + currentUser.id] = Date.now();</p>
-<p>indicator.classList.add('hidden');</p>
-<p>return;</p>
-<p>}</p>
-<p>const currentThreadId = isAdmin ? document.getElementById('msg-recipient').value : currentUser.id;</p>
-<p>const lastSeen = lastViewedTimestamp[currentThreadId + "_" + currentUser.id] || 0;</p>
-<p>const unreadMessages = messages.filter(m =></p>
-<p>m.recipientId === currentUser.id &&</p>
-<p>m.threadId === currentThreadId &&</p>
-<p>m.timestamp > lastSeen</p>
-<p>);</p>
-<p>if (unreadMessages.length > 0) {</p>
-<p>indicator.classList.remove('hidden');</p>
-<p>} else {</p>
-<p>indicator.classList.add('hidden');</p>
-<p>}</p>
-<p>}</p>
-<p>}</p>
-<p>function renderMessages() {</p>
-<p>const list = document.getElementById('message-list');</p>
-<p>if(!currentUser) return;</p>
-<p>let filterId = isAdmin ? document.getElementById('msg-recipient').value : currentUser.id;</p>
-<p>const threadMessages = messages.filter(m => m.threadId === filterId);</p>
-<p>list.innerHTML = threadMessages.map(m => `</p>
-<p><div class="flex flex-col ${m.senderId === currentUser.id ? 'items-end' : 'items-start'}"></p>
-<p><div class="max-w-[85%] p-3 rounded-2xl text-xs ${m.senderId === currentUser.id ? 'bg-blue-600 rounded-tr-none' : 'bg-slate-800 rounded-tl-none'} ${m.senderName === 'SYSTEM ALERT' ? 'border border-amber-500/50 bg-amber-950/20' : ''}"></p>
-<p><div class="text-[8px] font-black uppercase opacity-60 mb-1 ${m.senderName === 'SYSTEM ALERT' ? 'text-amber-400' : ''}">${m.senderName}</div></p>
-<p><p class="leading-relaxed">${m.text}</p></p>
-<p><div class="text-[7px] mt-2 opacity-50 text-right font-bold">${m.time}</div></p>
-<p></div></p>
-<p></div></p>
-<p>`).join('') || '<div class="text-center text-[10px] text-slate-600 mt-10 uppercase font-black tracking-widest">End of secure line</div>';</p>
-<p>list.scrollTop = list.scrollHeight;</p>
-<p>}</p>
-<p>function saveProgress() {</p>
-<p>const code = document.getElementById('staff-editor').value;</p>
-<p>drafts[currentUser.id] = code;</p>
-<p>saveState();</p>
-<p>showToast("Progress Saved Locally");</p>
-<p>}</p>
-<p>function submitCodeToAdmin() {</p>
-<p>reviews.push({</p>
-<p>id: Date.now(),</p>
-<p>staffId: currentUser.id,</p>
-<p>staffName: currentUser.name,</p>
-<p>code: document.getElementById('staff-editor').value,</p>
-<p>time: new Date().toLocaleString()</p>
-<p>});</p>
-<p>saveState();</p>
-<p>showToast("Work submitted for individual review");</p>
-<p>}</p>
-<p>function openInspector(id) {</p>
-<p>activeReviewItem = reviews.find(r => r.id === id);</p>
-<p>document.getElementById('review-author').innerText = activeReviewItem.staffName;</p>
-<p>document.getElementById('review-timestamp').innerText = activeReviewItem.time;</p>
-<p>document.getElementById('review-code').innerText = activeReviewItem.code;</p>
-<p>document.getElementById('review-preview').srcdoc = activeReviewItem.code;</p>
-<p>document.getElementById('review-overlay').classList.remove('hidden');</p>
-<p>}</p>
-<p>function closeInspector() { document.getElementById('review-overlay').classList.add('hidden'); }</p>
-<p>function finalizeReview(status) {</p>
-<p>messages.push({</p>
-<p>senderId: "ADMIN",</p>
-<p>senderName: "System",</p>
-<p>recipientId: activeReviewItem.staffId,</p>
-<p>threadId: activeReviewItem.staffId,</p>
-<p>text: `[SYSTEM] Code submission ${status.toUpperCase()} (${activeReviewItem.time})`,</p>
-<p>time: new Date().toLocaleTimeString(),</p>
-<p>timestamp: Date.now()</p>
-<p>});</p>
-<p>reviews = reviews.filter(r => r.id !== activeReviewItem.id);</p>
-<p>saveState();</p>
-<p>closeInspector();</p>
-<p>renderReviews();</p>
-<p>showToast(`Submission ${status}`);</p>
-<p>updateNotificationIndicators();</p>
-<p>}</p>
-<p>function jumpTo(id) {</p>
-<p>const el = document.getElementById(id + '-section') || document.getElementById(id);</p>
-<p>if(el) el.scrollIntoView({behavior:'smooth'});</p>
-<p>else if(id==='home') window.scrollTo({top:0, behavior:'smooth'});</p>
-<p>}</p>
-<p>function toggleMessagePanel() {</p>
-<p>const panel = document.getElementById('message-panel');</p>
-<p>const isOpening = !panel.classList.contains('open');</p>
-<p>panel.classList.toggle('open');</p>
-<p>if (isOpening) {</p>
-<p>const currentThreadId = isAdmin ? document.getElementById('msg-recipient').value : currentUser.id;</p>
-<p>lastViewedTimestamp[currentThreadId + "_" + currentUser.id] = Date.now();</p>
-<p>saveState();</p>
-<p>renderMessages();</p>
-<p>}</p>
-<p>updateNotificationIndicators();</p>
-<p>}</p>
-<p>function updatePreview(type) {</p>
-<p>const ed = document.getElementById('staff-editor');</p>
-<p>const pre = document.getElementById('staff-preview');</p>
-<p>if(ed && pre) pre.srcdoc = ed.value;</p>
-<p>}</p>
-<p>function showToast(msg) {</p>
-<p>const t = document.getElementById('toast');</p>
-<p>t.innerText = msg; t.classList.remove('opacity-0');</p>
-<p>setTimeout(()=>t.classList.add('opacity-0'), 2500);</p>
-<p>}</p>
-<p>function closeModal() { document.getElementById('modal-overlay').classList.add('hidden'); }</p>
-<p>function openStaffModal() { document.getElementById('modal-overlay').classList.remove('hidden'); }</p>
-<p>function saveStaff(e) {</p>
-<p>e.preventDefault();</p>
-<p>staffMembers.push({</p>
-<p>name: document.getElementById('modal-staff-name').value,</p>
-<p>id: document.getElementById('modal-staff-id').value,</p>
-<p>role: document.getElementById('modal-staff-role').value,</p>
-<p>pass: document.getElementById('modal-staff-pass').value</p>
-<p>});</p>
-<p>saveState(); closeModal(); refreshAdminUI();</p>
-<p>}</p>
-<p>function refreshAdminUI() { renderStaffList(); renderAnalytics(); renderReviews(); renderRecipientDropdown(); }</p>
-<p>let currentSlide = 0;</p>
-<p>const slides = document.querySelectorAll('.hero-slide');</p>
-<p>setInterval(() => {</p>
-<p>if (slides.length > 0) {</p>
-<p>slides[currentSlide].classList.remove('active');</p>
-<p>currentSlide = (currentSlide + 1) % slides.length;</p>
-<p>slides[currentSlide].classList.add('active');</p>
-<p>}</p>
-<p>}, 5000);</p>
-<p>setInterval(purgeOldLogs, 60000);</p>
-<p>setInterval(updateNotificationIndicators, 3000);</p>
-<p>window.onload = purgeOldLogs;</p>
-<p></script></p>
-<p></body></p>
-<p></html></p>
+
+    <!-- BACKGROUND SLIDER -->
+    <div id="landing-bg" class="hero-bg-container">
+        <div class="hero-slide active" style="background-image: url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2070&auto=format&fit=crop');"></div>
+        <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=2069&auto=format&fit=crop');"></div>
+        <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop');"></div>
+    </div>
+
+    <!-- 1. LANDING PAGE -->
+    <div id="landing-wrapper" class="relative z-10">
+        <nav class="fixed w-full z-50 glass px-8 h-20 flex justify-between items-center overflow-hidden">
+            <img src="Gemini_Generated_Image_31564y31564y3156.jpg" alt="Watermark" class="nav-logo-back">
+            <div class="flex items-center gap-10">
+                <div class="flex items-center gap-3 cursor-pointer" onclick="jumpTo('home')">
+                    <div class="w-10 h-10 rounded-lg overflow-hidden border border-blue-500/50 flex items-center justify-center bg-blue-900">
+                        <i class="fas fa-layer-group text-blue-400"></i>
+                    </div>
+                    <span class="text-xl font-black tracking-tighter uppercase relative">YOUSPRO <span class="text-blue-500">TECH</span></span>
+                </div>
+                <div class="hidden md:flex gap-6">
+                    <span onclick="jumpTo('home')" class="nav-link">Home</span>
+                    <span onclick="jumpTo('about')" class="nav-link">About</span>
+                    <span onclick="jumpTo('mission')" class="nav-link">Mission</span>
+                    <span onclick="jumpTo('staff-login')" class="nav-link">Staff Access</span>
+                </div>
+            </div>
+            <button onclick="jumpTo('admin-login')" class="bg-blue-600 px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-blue-500 transition shadow-lg shadow-blue-600/20 z-10">Admin Portal</button>
+        </nav>
+
+        <!-- HOME SECTION -->
+        <section id="home-section" class="min-h-screen flex items-center justify-center pt-20 text-center px-4">
+            <div class="max-w-4xl">
+                <div class="inline-block px-4 py-1.5 mb-8 bg-blue-500/20 border border-blue-500/30 rounded-full text-blue-400 text-[10px] font-black uppercase tracking-[0.2em]">Building the Future of Tech</div>
+                <h1 class="text-6xl md:text-8xl font-black mb-8 tracking-tight leading-[0.95]">Innovate. <br><span class="text-blue-500">Scale.</span> Succeed.</h1>
+                <p class="text-slate-300 text-lg md:text-xl mb-12 max-w-2xl mx-auto leading-relaxed">The unified digital ecosystem for YOUSPRO engineering.</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-6">
+                    <button onclick="jumpTo('staff-login')" class="bg-white/10 border border-white/20 px-10 py-5 rounded-2xl font-bold hover:bg-white/20 transition text-lg flex items-center justify-center gap-3">
+                        <i class="fas fa-code"></i> Developer Sandbox
+                    </button>
+                    <button onclick="jumpTo('about')" class="bg-blue-600 px-10 py-5 rounded-2xl font-bold hover:bg-blue-500 transition text-lg">Explore Suite</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section id="about-section" class="py-32 px-8 bg-slate-950/60 backdrop-blur-md border-y border-white/5">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+                    <div>
+                        <p class="text-blue-500 font-black uppercase tracking-widest text-xs mb-4">Precision Engineering</p>
+                        <h2 class="text-5xl font-black mb-8 leading-tight">We define the <br>standard of <span class="text-blue-500">Digital Execution.</span></h2>
+                        <p class="text-slate-400 text-lg leading-relaxed mb-8">
+                            YOUSPRO TECH is not just a platform; it's a high-performance environment designed for rapid development and rigorous oversight.
+                        </p>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
+                                <p class="text-2xl font-black text-white">99.9%</p>
+                                <p class="text-[10px] text-slate-500 uppercase font-bold">Uptime Reliability</p>
+                            </div>
+                            <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
+                                <p class="text-2xl font-black text-white">24/7</p>
+                                <p class="text-[10px] text-slate-500 uppercase font-bold">Admin Oversight</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-4 pt-12">
+                            <div class="h-64 rounded-[2rem] bg-gradient-to-br from-blue-600 to-indigo-700 p-8 flex items-end overflow-hidden relative">
+                                <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=600" class="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-overlay">
+                                <i class="fas fa-microchip text-4xl text-white/50 relative z-10"></i>
+                            </div>
+                            <div class="h-48 rounded-[2rem] bg-slate-800 border border-white/10 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover opacity-50">
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="h-48 rounded-[2rem] bg-slate-800 border border-white/10 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover opacity-50">
+                            </div>
+                            <div class="h-64 rounded-[2rem] bg-white/5 border border-white/10 p-8">
+                                <h4 class="font-black text-xl mb-2">Scalable Architecture</h4>
+                                <p class="text-xs text-slate-500 leading-relaxed">Built on a foundation of modular components and real-time synchronization.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MISSION SECTION -->
+        <section id="mission-section" class="py-32 px-8 bg-black/40">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-4xl font-black mb-10">Our <span class="text-blue-500">Mission</span></h2>
+                <div class="relative p-12 rounded-[3rem] overflow-hidden">
+                    <div class="absolute inset-0 bg-blue-600/5 backdrop-blur-3xl border border-blue-500/10"></div>
+                    <p class="relative text-xl md:text-2xl font-light text-slate-200 leading-relaxed italic">
+                        "To empower the next generation of engineers by providing the tools, transparency, and structure needed to turn complex ideas into digital reality."
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOGIN SECTIONS -->
+        <section id="staff-login-section" class="min-h-screen flex items-center justify-center bg-slate-950/80">
+            <div class="max-w-md w-full glass p-8 rounded-[2.5rem] mx-4">
+                <h2 class="text-3xl font-black mb-8 text-center">Staff Login</h2>
+                <form onsubmit="handleStaffLogin(event)" class="space-y-4">
+                    <input type="text" id="staff-id-field" placeholder="Personnel ID (e.g. YST-002)" class="text-sm py-3" required>
+                    <input type="password" id="staff-pass-field" placeholder="Security Token" class="text-sm py-3" required>
+                    <button type="submit" class="w-full py-4 bg-blue-600 rounded-2xl font-black text-sm hover:bg-blue-500 transition shadow-lg mt-4 uppercase">Initialize Workspace</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="admin-login-section" class="min-h-screen flex items-center justify-center bg-black/90">
+            <div class="max-w-md w-full glass p-8 rounded-[2.5rem] border border-indigo-500/20 mx-4">
+                <h2 class="text-3xl font-black mb-8 text-center">Admin Console</h2>
+                <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+                    <input type="text" id="admin-user" placeholder="Admin Username" class="text-sm py-3" required>
+                    <input type="password" id="admin-pass" placeholder="Access Password" class="text-sm py-3" required>
+                    <button type="submit" class="w-full py-4 bg-indigo-600 rounded-2xl font-black text-sm hover:bg-indigo-500 transition shadow-xl mt-4 uppercase">Authorize Access</button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <!-- 2. STAFF DASHBOARD -->
+    <div id="staff-wrapper" class="flex">
+        <aside class="sidebar p-6 flex flex-col">
+            <div class="mb-10 flex items-center gap-3">
+                <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center"><i class="fas fa-terminal text-white"></i></div>
+                <span class="text-lg font-black tracking-tighter uppercase">DEV LAB</span>
+            </div>
+            <nav class="flex-1 space-y-2">
+                <button class="w-full flex items-center gap-3 px-4 py-3 bg-blue-600/10 text-blue-400 rounded-xl font-bold"><i class="fas fa-code"></i> Workspace</button>
+                <button onclick="toggleMessagePanel()" class="relative w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl font-bold text-slate-400 transition">
+                    <i class="fas fa-envelope"></i> Message Admin
+                    <span id="staff-msg-indicator" class="msg-dot hidden"></span>
+                </button>
+            </nav>
+            <button onclick="logout()" class="text-red-400 p-4 font-bold flex items-center gap-3 hover:bg-red-500/10 rounded-xl transition"><i class="fas fa-sign-out-alt"></i>Logout</button>
+        </aside>
+
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <header class="h-16 border-b border-white/5 flex items-center justify-between px-8 bg-slate-900/20">
+                <div class="flex items-center gap-4">
+                    <span id="staff-name-ui" class="font-bold text-sm text-slate-300">Staff User</span>
+                    <span id="staff-role-ui" class="text-[10px] bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded font-bold uppercase">ROLE</span>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="saveProgress()" class="bg-slate-800 border border-white/10 px-6 py-2 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-700 transition">
+                        <i class="fas fa-save mr-2"></i>Save Progress
+                    </button>
+                    <button onclick="submitCodeToAdmin()" class="bg-green-600 px-6 py-2 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-green-500 transition">
+                        <i class="fas fa-paper-plane mr-2"></i>Submit Work
+                    </button>
+                </div>
+            </header>
+            <div class="flex-1 flex gap-px bg-white/5">
+                <div class="w-1/2 flex flex-col bg-slate-950">
+                    <textarea id="staff-editor" class="flex-1 w-full bg-slate-950 text-blue-100 p-6 code-font focus:outline-none resize-none text-sm" spellcheck="false" oninput="updatePreview('staff')"></textarea>
+                </div>
+                <iframe id="staff-preview" class="w-1/2 border-none bg-white"></iframe>
+            </div>
+        </main>
+    </div>
+
+    <!-- 3. ADMIN DASHBOARD -->
+    <div id="admin-wrapper" class="flex">
+        <aside class="sidebar p-6 flex flex-col">
+            <div class="mb-10 flex items-center gap-3">
+                <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center"><i class="fas fa-shield-alt text-white"></i></div>
+                <span class="text-lg font-black tracking-tighter uppercase">ADMIN CORE</span>
+            </div>
+            <nav class="flex-1 space-y-2">
+                <button onclick="showAdminTab('analytics')" class="admin-tab-btn w-full text-left px-4 py-3 bg-indigo-600/10 text-indigo-400 rounded-xl font-bold" data-tab="analytics"><i class="fas fa-chart-pie mr-3"></i>Analytics</button>
+                <button onclick="showAdminTab('staff')" class="admin-tab-btn w-full text-left px-4 py-3 text-slate-400 hover:bg-white/5 rounded-xl font-bold" data-tab="staff"><i class="fas fa-users-cog mr-3"></i>Personnel</button>
+                <button onclick="showAdminTab('reviews')" class="admin-tab-btn w-full text-left px-4 py-3 text-slate-400 hover:bg-white/5 rounded-xl font-bold" data-tab="reviews"><i class="fas fa-code-branch mr-3"></i>Reviews</button>
+                <button onclick="toggleMessagePanel()" class="relative w-full text-left px-4 py-3 text-slate-400 hover:bg-white/5 rounded-xl font-bold transition">
+                    <i class="fas fa-comment-alt mr-3"></i>Messages
+                    <span id="admin-msg-indicator" class="msg-dot hidden"></span>
+                </button>
+            </nav>
+            <button onclick="logout()" class="text-red-400 p-4 font-bold flex items-center gap-3 hover:bg-red-500/10 rounded-xl transition"><i class="fas fa-power-off"></i>Logout</button>
+        </aside>
+
+        <main class="flex-1 flex flex-col overflow-y-auto bg-slate-950">
+            <div id="view-analytics" class="p-10 admin-view active-view flex-col">
+                <h2 class="text-3xl font-black mb-8 text-blue-500">System Analytics</h2>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12" id="analytics-cards"></div>
+                <h3 class="text-xl font-black mb-6 text-slate-400 uppercase tracking-widest">Recent Activity</h3>
+                <div id="login-logs" class="space-y-3 bg-slate-900/50 p-6 rounded-[2rem] border border-white/5"></div>
+            </div>
+            <div id="view-staff" class="p-10 admin-view hidden flex-col">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-3xl font-black">Personnel Management</h2>
+                    <button onclick="openStaffModal()" class="bg-indigo-600 px-6 py-2.5 rounded-xl font-bold text-sm"><i class="fas fa-plus mr-2"></i>Register Staff</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="staff-grid"></div>
+            </div>
+            <div id="view-reviews" class="p-10 admin-view hidden flex-col">
+                <h2 class="text-3xl font-black mb-8">Review Queue</h2>
+                <div id="reviews-list" class="space-y-4"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MESSAGE PANEL -->
+    <div id="message-panel" class="fixed top-0 right-0 h-screen w-96 bg-slate-900 border-l border-white/10 flex flex-col shadow-2xl">
+        <div class="p-6 border-b border-white/10 flex justify-between items-center bg-slate-900">
+            <h3 class="font-bold flex items-center gap-2">
+                <i class="fas fa-comments text-blue-500"></i>
+                <span id="msg-panel-title">Secure Transmission</span>
+            </h3>
+            <button onclick="toggleMessagePanel()" class="text-slate-500 hover:text-white"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="admin-recipient-area" class="p-4 bg-slate-800/50 border-b border-white/5 hidden">
+            <label class="text-[9px] uppercase font-black text-slate-500 block mb-2">Target Personnel</label>
+            <select id="msg-recipient" onchange="renderMessages()" class="w-full bg-slate-900 text-xs py-2"></select>
+        </div>
+        <div id="staff-recipient-area" class="p-4 bg-slate-800/50 border-b border-white/5 hidden">
+            <div class="flex items-center gap-2">
+                <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
+                <span class="text-[10px] uppercase font-black text-slate-300">Connected: <span class="text-blue-400">ADMIN CORE</span></span>
+            </div>
+        </div>
+        <div id="message-list" class="flex-1 p-4 overflow-y-auto space-y-4 bg-slate-950/20"></div>
+        <div class="p-4 border-t border-white/10 bg-slate-900">
+            <textarea id="msg-input" placeholder="Enter secure transmission..." class="w-full bg-slate-800 border-none p-4 rounded-xl text-sm focus:outline-none resize-none" rows="3"></textarea>
+            <button onclick="sendMessage()" class="w-full mt-3 bg-blue-600 py-3 rounded-xl text-sm font-black uppercase tracking-widest">Transmit</button>
+        </div>
+    </div>
+
+    <!-- CODE INSPECTOR -->
+    <div id="review-overlay" class="fixed inset-0 hidden flex flex-col p-8">
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <h2 class="text-2xl font-black">Reviewing: <span id="review-author" class="text-blue-500">...</span></h2>
+                <p id="review-timestamp" class="text-[10px] text-slate-500 font-bold uppercase"></p>
+            </div>
+            <button onclick="closeInspector()" class="text-white text-2xl"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="flex-1 flex gap-px bg-white/10 rounded-3xl overflow-hidden border border-white/10">
+            <div class="w-1/2 bg-slate-950 flex flex-col">
+                <pre id="review-code" class="flex-1 p-6 text-sm text-blue-200 code-font overflow-auto"></pre>
+            </div>
+            <iframe id="review-preview" class="w-1/2 border-none bg-white"></iframe>
+        </div>
+        <div class="flex justify-center gap-6 mt-8">
+            <button onclick="finalizeReview('Declined')" class="border border-red-500 text-red-500 px-12 py-4 rounded-xl font-bold hover:bg-red-500 hover:text-white transition">Decline</button>
+            <button onclick="finalizeReview('Accepted')" class="bg-emerald-600 px-12 py-4 rounded-xl font-bold hover:bg-emerald-500 transition">Accept</button>
+        </div>
+    </div>
+
+    <!-- STAFF MODAL (Add/Edit) -->
+    <div id="modal-overlay" class="fixed inset-0 hidden flex items-center justify-center p-6">
+        <div class="glass max-w-lg w-full p-8 rounded-[2.5rem]">
+            <h2 id="modal-title" class="text-2xl font-black mb-6">Personnel Profile</h2>
+            <form onsubmit="saveStaff(event)" class="space-y-4">
+                <input type="hidden" id="staff-edit-id" value="">
+                <input type="text" id="modal-staff-name" placeholder="Full Name" required>
+                <input type="text" id="modal-staff-id" placeholder="Personnel ID (YST-XXX)" required>
+                <select id="modal-staff-role">
+                    <option value="Engineer">Engineer</option>
+                    <option value="Associate">Associate</option>
+                    <option value="Junior">Junior</option>
+                    <option value="Senior">Senior</option>
+                </select>
+                <input type="text" id="modal-staff-pass" placeholder="Security Password" required>
+                <div class="flex gap-4 pt-4">
+                    <button type="button" onclick="closeModal()" class="flex-1 py-4 bg-slate-800 rounded-xl font-bold">Cancel</button>
+                    <button type="submit" class="flex-1 py-4 bg-indigo-600 rounded-xl font-bold">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast" class="fixed bottom-6 right-6 px-8 py-4 rounded-2xl bg-white text-slate-900 font-bold shadow-2xl opacity-0 transition-all z-[600]"></div>
+
+    <script>
+        // --- DATA LAYER ---
+        let staffMembers = JSON.parse(localStorage.getItem('yst_staff_v2')) || [
+            { name: "Demo User", id: "YST-002", role: "Associate", pass: "123" }
+        ];
+        let reviews = JSON.parse(localStorage.getItem('yst_reviews_v2')) || [];
+        let messages = JSON.parse(localStorage.getItem('yst_messages_v2')) || [];
+        let drafts = JSON.parse(localStorage.getItem('yst_drafts_v2')) || {};
+        let loginLogs = JSON.parse(localStorage.getItem('yst_login_logs_v2')) || [];
+        let lastViewedTimestamp = JSON.parse(localStorage.getItem('yst_last_viewed_v2')) || {};
+
+        let currentUser = null;
+        let isAdmin = false;
+        let activeReviewItem = null;
+
+        // Cleanup function for logs older than 24 hours
+        function cleanupOldLogs() {
+            const twentyFourHoursAgo = Date.now() - (24 * 60 * 60 * 1000);
+            const originalLength = loginLogs.length;
+            loginLogs = loginLogs.filter(log => log.timestamp > twentyFourHoursAgo);
+            if (originalLength !== loginLogs.length) {
+                saveState();
+                if (isAdmin) renderAnalytics();
+            }
+        }
+
+        function saveState() {
+            localStorage.setItem('yst_staff_v2', JSON.stringify(staffMembers));
+            localStorage.setItem('yst_reviews_v2', JSON.stringify(reviews));
+            localStorage.setItem('yst_messages_v2', JSON.stringify(messages));
+            localStorage.setItem('yst_drafts_v2', JSON.stringify(drafts));
+            localStorage.setItem('yst_last_viewed_v2', JSON.stringify(lastViewedTimestamp));
+            localStorage.setItem('yst_login_logs_v2', JSON.stringify(loginLogs));
+            updateNotificationIndicators();
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            if(document.getElementById('admin-user').value === 'admin' && document.getElementById('admin-pass').value === 'admin123') {
+                isAdmin = true; currentUser = { name: "Root Admin", id: "ADMIN" }; launchApp();
+            } else showToast("Access Denied");
+        }
+
+        function handleStaffLogin(e) {
+            e.preventDefault();
+            const idField = document.getElementById('staff-id-field');
+            const passField = document.getElementById('staff-pass-field');
+            const id = idField.value;
+            const pass = passField.value;
+            const found = staffMembers.find(s => s.id === id && s.pass === pass);
+            
+            if(found) { 
+                isAdmin = false; 
+                currentUser = found; 
+                
+                // Add log with explicit date and time
+                const now = new Date();
+                loginLogs.unshift({ 
+                    staffName: found.name, 
+                    role: found.role, 
+                    time: now.toLocaleTimeString(), 
+                    date: now.toLocaleDateString(), 
+                    timestamp: now.getTime() 
+                });
+                
+                idField.value = "";
+                passField.value = "";
+                
+                saveState();
+                launchApp(); 
+            } else showToast("Invalid Credentials");
+        }
+
+        function launchApp() {
+            document.getElementById('landing-wrapper').classList.add('hidden');
+            document.getElementById('landing-bg').classList.add('hidden');
+            if(isAdmin) {
+                document.getElementById('admin-wrapper').classList.add('active-view');
+                document.getElementById('admin-recipient-area').classList.remove('hidden');
+                refreshAdminUI();
+            } else {
+                document.getElementById('staff-wrapper').classList.add('active-view');
+                document.getElementById('staff-name-ui').innerText = currentUser.name;
+                document.getElementById('staff-role-ui').innerText = currentUser.role;
+                document.getElementById('staff-recipient-area').classList.remove('hidden');
+                document.getElementById('staff-editor').value = drafts[currentUser.id] || `<h1>Workspace: ${currentUser.name}</h1>`;
+                updatePreview();
+            }
+            renderMessages();
+            renderRecipientDropdown();
+            updateNotificationIndicators();
+        }
+
+        function logout() { location.reload(); }
+
+        function showAdminTab(tab) {
+            document.querySelectorAll('.admin-view').forEach(v => v.classList.add('hidden'));
+            document.getElementById('view-' + tab).classList.remove('hidden');
+            if(tab === 'reviews') renderReviews();
+            if(tab === 'staff') renderStaffList();
+            if(tab === 'analytics') renderAnalytics();
+        }
+
+        function renderStaffList() {
+            const grid = document.getElementById('staff-grid');
+            grid.innerHTML = staffMembers.map(s => `
+                <div class="stat-card p-6 rounded-3xl border border-white/5 group relative overflow-hidden">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <p class="font-black text-lg">${s.name}</p>
+                            <p class="text-[9px] text-indigo-400 font-black uppercase tracking-widest">${s.role}</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="editStaff('${s.id}')" class="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center hover:bg-indigo-500 hover:text-white transition">
+                                <i class="fas fa-edit text-xs"></i>
+                            </button>
+                            <button onclick="deleteStaff('${s.id}')" class="w-8 h-8 rounded-lg bg-red-500/10 text-red-400 flex items-center justify-center hover:bg-red-500 hover:text-white transition">
+                                <i class="fas fa-trash-alt text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bg-black/20 p-3 rounded-xl space-y-2">
+                        <div class="flex justify-between text-[10px] font-bold">
+                            <span class="text-slate-500">ID</span>
+                            <span>${s.id}</span>
+                        </div>
+                        <div class="flex justify-between text-[10px] font-bold">
+                            <span class="text-slate-500">PASSWORD</span>
+                            <span class="text-indigo-400">${s.pass}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function editStaff(id) {
+            const staff = staffMembers.find(s => s.id === id);
+            if(!staff) return;
+            document.getElementById('modal-title').innerText = "Edit Personnel";
+            document.getElementById('staff-edit-id').value = staff.id;
+            document.getElementById('modal-staff-name').value = staff.name;
+            document.getElementById('modal-staff-id').value = staff.id;
+            document.getElementById('modal-staff-role').value = staff.role;
+            document.getElementById('modal-staff-pass').value = staff.pass;
+            openStaffModal();
+        }
+
+        function deleteStaff(id) {
+            if(confirm(`Are you sure you want to remove ${id}?`)) {
+                staffMembers = staffMembers.filter(s => s.id !== id);
+                saveState();
+                renderStaffList();
+                renderRecipientDropdown();
+                showToast("Personnel Removed");
+            }
+        }
+
+        function saveStaff(e) {
+            e.preventDefault();
+            const editId = document.getElementById('staff-edit-id').value;
+            const newStaff = {
+                name: document.getElementById('modal-staff-name').value,
+                id: document.getElementById('modal-staff-id').value,
+                role: document.getElementById('modal-staff-role').value,
+                pass: document.getElementById('modal-staff-pass').value
+            };
+
+            if(editId) {
+                const idx = staffMembers.findIndex(s => s.id === editId);
+                staffMembers[idx] = newStaff;
+                showToast("Profile Updated");
+            } else {
+                if(staffMembers.some(s => s.id === newStaff.id)) return showToast("ID already exists");
+                staffMembers.push(newStaff);
+                showToast("Personnel Registered");
+            }
+
+            saveState();
+            closeModal();
+            refreshAdminUI();
+        }
+
+        function renderReviews() {
+            const list = document.getElementById('reviews-list');
+            list.innerHTML = reviews.map(r => `
+                <div class="stat-card p-6 rounded-3xl flex justify-between items-center">
+                    <div>
+                        <p class="font-bold text-lg">${r.staffName}</p>
+                        <p class="text-[10px] text-blue-500 uppercase font-black">${r.time}</p>
+                    </div>
+                    <button onclick="openInspector(${r.id})" class="bg-indigo-600 px-6 py-2 rounded-xl text-xs font-bold uppercase">Inspect</button>
+                </div>
+            `).join('') || '<p class="text-center text-slate-600">Queue Clear</p>';
+        }
+
+        function renderAnalytics() {
+            const cards = document.getElementById('analytics-cards');
+            const stats = [
+                { label: 'Total Personnel', val: staffMembers.length },
+                { label: 'Submissions', val: reviews.length },
+                { label: 'Active Tasks', val: Object.keys(drafts).length },
+                { label: 'Node Status', val: 'Online' }
+            ];
+            cards.innerHTML = stats.map(s => `
+                <div class="stat-card p-6 rounded-3xl">
+                    <p class="text-[9px] text-slate-500 uppercase font-black mb-1">${s.label}</p>
+                    <p class="text-2xl font-black">${s.val}</p>
+                </div>
+            `).join('');
+
+            const logs = document.getElementById('login-logs');
+            logs.innerHTML = loginLogs.slice(0, 10).map(l => `
+                <div class="flex justify-between items-center p-4 bg-slate-800/20 rounded-2xl border border-white/5">
+                    <div>
+                        <span class="font-black text-xs">${l.staffName}</span> 
+                        <span class="text-[10px] text-slate-500 ml-2">${l.role}</span>
+                    </div>
+                    <div class="text-[10px] font-black opacity-50 uppercase text-right">
+                        <div>${l.date}</div>
+                        <div>${l.time}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderRecipientDropdown() {
+            const sel = document.getElementById('msg-recipient');
+            if(sel) sel.innerHTML = staffMembers.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('msg-input');
+            if(!input.value.trim()) return;
+            const rid = isAdmin ? document.getElementById('msg-recipient').value : "ADMIN";
+            messages.push({
+                senderId: currentUser.id, senderName: currentUser.name, recipientId: rid, 
+                threadId: isAdmin ? rid : currentUser.id, text: input.value.trim(), 
+                time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}), timestamp: Date.now()
+            });
+            input.value = '';
+            saveState();
+            renderMessages();
+            showToast("Transmitted");
+        }
+
+        function renderMessages() {
+            const list = document.getElementById('message-list');
+            const tid = isAdmin ? document.getElementById('msg-recipient').value : currentUser.id;
+            const thread = messages.filter(m => m.threadId === tid);
+            list.innerHTML = thread.map(m => `
+                <div class="flex flex-col ${m.senderId === currentUser.id ? 'items-end' : 'items-start'}">
+                    <div class="max-w-[85%] p-3 rounded-2xl text-xs ${m.senderId === currentUser.id ? 'bg-blue-600 rounded-tr-none' : 'bg-slate-800 rounded-tl-none'}">
+                        <p>${m.text}</p>
+                        <div class="text-[7px] mt-2 opacity-50 text-right uppercase font-bold">${m.time}</div>
+                    </div>
+                </div>
+            `).join('');
+            list.scrollTop = list.scrollHeight;
+            
+            const panelOpen = document.getElementById('message-panel').classList.contains('open');
+            if(panelOpen) {
+                lastViewedTimestamp[tid] = Date.now();
+                saveState();
+            }
+        }
+
+        function updateNotificationIndicators() {
+            if(!currentUser) return;
+            const panelOpen = document.getElementById('message-panel').classList.contains('open');
+            
+            let hasUnread = false;
+            if(isAdmin) {
+                hasUnread = messages.some(m => m.senderId !== "ADMIN" && m.timestamp > (lastViewedTimestamp[m.threadId] || 0));
+            } else {
+                hasUnread = messages.some(m => m.senderId === "ADMIN" && m.recipientId === currentUser.id && m.timestamp > (lastViewedTimestamp[currentUser.id] || 0));
+            }
+
+            const dot = document.getElementById(isAdmin ? 'admin-msg-indicator' : 'staff-msg-indicator');
+            if(dot) {
+                if(hasUnread && !panelOpen) dot.classList.remove('hidden');
+                else dot.classList.add('hidden');
+            }
+        }
+
+        function saveProgress() {
+            drafts[currentUser.id] = document.getElementById('staff-editor').value;
+            saveState();
+            showToast("Draft Saved");
+        }
+
+        function submitCodeToAdmin() {
+            reviews.push({ id: Date.now(), staffId: currentUser.id, staffName: currentUser.name, code: document.getElementById('staff-editor').value, time: new Date().toLocaleString() });
+            saveState();
+            showToast("Work Submitted");
+        }
+
+        function openInspector(id) {
+            activeReviewItem = reviews.find(r => r.id === id);
+            document.getElementById('review-author').innerText = activeReviewItem.staffName;
+            document.getElementById('review-timestamp').innerText = activeReviewItem.time;
+            document.getElementById('review-code').innerText = activeReviewItem.code;
+            document.getElementById('review-preview').srcdoc = activeReviewItem.code;
+            document.getElementById('review-overlay').classList.remove('hidden');
+        }
+
+        function finalizeReview(status) {
+            messages.push({ senderId: "ADMIN", senderName: "System", recipientId: activeReviewItem.staffId, threadId: activeReviewItem.staffId, text: `Submission ${status.toUpperCase()}`, time: new Date().toLocaleTimeString(), timestamp: Date.now() });
+            reviews = reviews.filter(r => r.id !== activeReviewItem.id);
+            saveState();
+            closeInspector();
+            renderReviews();
+            showToast(`Submission ${status}`);
+        }
+
+        function jumpTo(id) { 
+            const el = document.getElementById(id + '-section') || document.getElementById(id);
+            if(el) el.scrollIntoView({behavior:'smooth'});
+            else if(id==='home') window.scrollTo({top:0, behavior:'smooth'});
+        }
+        function toggleMessagePanel() { 
+            const panel = document.getElementById('message-panel');
+            panel.classList.toggle('open');
+            if(panel.classList.contains('open')) {
+                const tid = isAdmin ? document.getElementById('msg-recipient').value : currentUser.id;
+                lastViewedTimestamp[tid] = Date.now();
+                renderMessages();
+            }
+            updateNotificationIndicators();
+        }
+        function updatePreview() {
+            const ed = document.getElementById('staff-editor');
+            const pre = document.getElementById('staff-preview');
+            if(ed && pre) pre.srcdoc = ed.value;
+        }
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.innerText = msg; t.classList.remove('opacity-0');
+            setTimeout(()=>t.classList.add('opacity-0'), 2500);
+        }
+        function closeModal() { 
+            document.getElementById('modal-overlay').classList.add('hidden'); 
+            document.getElementById('staff-edit-id').value = "";
+            document.getElementById('modal-title').innerText = "Register Personnel";
+            document.querySelectorAll('#modal-overlay input').forEach(i => i.value = "");
+        }
+        function openStaffModal() { document.getElementById('modal-overlay').classList.remove('hidden'); }
+        function closeInspector() { document.getElementById('review-overlay').classList.add('hidden'); }
+        function refreshAdminUI() { renderStaffList(); renderAnalytics(); renderReviews(); renderRecipientDropdown(); }
+
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.hero-slide');
+        setInterval(() => {
+            if (slides.length > 0) {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }
+        }, 5000);
+
+        // Auto-refresh tasks
+        setInterval(updateNotificationIndicators, 3000);
+        setInterval(cleanupOldLogs, 60000); // Check for old logs every minute
+        window.addEventListener('load', () => {
+            cleanupOldLogs();
+            updateNotificationIndicators();
+        });
+    </script>
 </body>
 </html>
